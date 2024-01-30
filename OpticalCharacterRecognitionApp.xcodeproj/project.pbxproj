@@ -13,7 +13,21 @@
 		04AC22892B677DAA009B5EA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AC22872B677DAA009B5EA9 /* Main.storyboard */; };
 		04AC228B2B677DAB009B5EA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04AC228A2B677DAB009B5EA9 /* Assets.xcassets */; };
 		04AC228E2B677DAB009B5EA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AC228C2B677DAB009B5EA9 /* LaunchScreen.storyboard */; };
+		04AC22BF2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22BE2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift */; };
+		04AC22C62B68BB56009B5EA9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04AC22C52B68BB56009B5EA9 /* README.md */; };
+		04AC22CB2B693700009B5EA9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22CA2B693700009B5EA9 /* Document.swift */; };
+		04AC22CD2B6937B3009B5EA9 /* ScanDocumentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22CC2B6937B3009B5EA9 /* ScanDocumentUseCase.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		04AC22C02B68B740009B5EA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04AC22762B677DAA009B5EA9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04AC227D2B677DAA009B5EA9;
+			remoteInfo = OpticalCharacterRecognitionApp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		04AC227E2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpticalCharacterRecognitionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -24,10 +38,22 @@
 		04AC228A2B677DAB009B5EA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04AC228D2B677DAB009B5EA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04AC228F2B677DAB009B5EA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04AC22BC2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpticalCharacterRecognitionAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04AC22BE2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpticalCharacterRecognitionAppTests.swift; sourceTree = "<group>"; };
+		04AC22C52B68BB56009B5EA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		04AC22CA2B693700009B5EA9 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		04AC22CC2B6937B3009B5EA9 /* ScanDocumentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanDocumentUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		04AC227B2B677DAA009B5EA9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04AC22B92B68B740009B5EA9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -40,7 +66,9 @@
 		04AC22752B677DAA009B5EA9 = {
 			isa = PBXGroup;
 			children = (
+				04AC22C52B68BB56009B5EA9 /* README.md */,
 				04AC22802B677DAA009B5EA9 /* OpticalCharacterRecognitionApp */,
+				04AC22BD2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests */,
 				04AC227F2B677DAA009B5EA9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				04AC227E2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp.app */,
+				04AC22BC2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,21 +87,13 @@
 			children = (
 				04AC22812B677DAA009B5EA9 /* AppDelegate.swift */,
 				04AC22832B677DAA009B5EA9 /* SceneDelegate.swift */,
-				04AC22952B677E4A009B5EA9 /* Infrastructure */,
 				04AC22962B677E52009B5EA9 /* Presentation */,
-				04AC22972B677E5D009B5EA9 /* UseCase */,
-				04AC22982B677E65009B5EA9 /* Entity */,
+				04AC22C72B68E403009B5EA9 /* Domain */,
+				04AC22C82B68E40F009B5EA9 /* Data */,
 				04AC228A2B677DAB009B5EA9 /* Assets.xcassets */,
 				04AC228F2B677DAB009B5EA9 /* Info.plist */,
 			);
 			path = OpticalCharacterRecognitionApp;
-			sourceTree = "<group>";
-		};
-		04AC22952B677E4A009B5EA9 /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		04AC22962B677E52009B5EA9 /* Presentation */ = {
@@ -88,6 +109,7 @@
 		04AC22972B677E5D009B5EA9 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				04AC22CC2B6937B3009B5EA9 /* ScanDocumentUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -95,8 +117,41 @@
 		04AC22982B677E65009B5EA9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				04AC22CA2B693700009B5EA9 /* Document.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		04AC22BD2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				04AC22BE2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift */,
+			);
+			path = OpticalCharacterRecognitionAppTests;
+			sourceTree = "<group>";
+		};
+		04AC22C72B68E403009B5EA9 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				04AC22972B677E5D009B5EA9 /* UseCase */,
+				04AC22982B677E65009B5EA9 /* Entity */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		04AC22C82B68E40F009B5EA9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				04AC22C92B68E41A009B5EA9 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		04AC22C92B68E41A009B5EA9 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +174,24 @@
 			productReference = 04AC227E2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		04AC22BB2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04AC22C42B68B740009B5EA9 /* Build configuration list for PBXNativeTarget "OpticalCharacterRecognitionAppTests" */;
+			buildPhases = (
+				04AC22B82B68B740009B5EA9 /* Sources */,
+				04AC22B92B68B740009B5EA9 /* Frameworks */,
+				04AC22BA2B68B740009B5EA9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04AC22C12B68B740009B5EA9 /* PBXTargetDependency */,
+			);
+			name = OpticalCharacterRecognitionAppTests;
+			productName = OpticalCharacterRecognitionAppTests;
+			productReference = 04AC22BC2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -131,6 +204,10 @@
 				TargetAttributes = {
 					04AC227D2B677DAA009B5EA9 = {
 						CreatedOnToolsVersion = 15.2;
+					};
+					04AC22BB2B68B740009B5EA9 = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = 04AC227D2B677DAA009B5EA9;
 					};
 				};
 			};
@@ -148,6 +225,7 @@
 			projectRoot = "";
 			targets = (
 				04AC227D2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp */,
+				04AC22BB2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -159,7 +237,15 @@
 			files = (
 				04AC228E2B677DAB009B5EA9 /* LaunchScreen.storyboard in Resources */,
 				04AC228B2B677DAB009B5EA9 /* Assets.xcassets in Resources */,
+				04AC22C62B68BB56009B5EA9 /* README.md in Resources */,
 				04AC22892B677DAA009B5EA9 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04AC22BA2B68B740009B5EA9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,13 +256,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AC22CD2B6937B3009B5EA9 /* ScanDocumentUseCase.swift in Sources */,
+				04AC22CB2B693700009B5EA9 /* Document.swift in Sources */,
 				04AC22862B677DAA009B5EA9 /* ViewController.swift in Sources */,
 				04AC22822B677DAA009B5EA9 /* AppDelegate.swift in Sources */,
 				04AC22842B677DAA009B5EA9 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04AC22B82B68B740009B5EA9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04AC22BF2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04AC22C12B68B740009B5EA9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04AC227D2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp */;
+			targetProxy = 04AC22C02B68B740009B5EA9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		04AC22872B677DAA009B5EA9 /* Main.storyboard */ = {
@@ -383,6 +487,42 @@
 			};
 			name = Release;
 		};
+		04AC22C22B68B740009B5EA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P85DW78LYM;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SwainYun.OpticalCharacterRecognitionAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpticalCharacterRecognitionApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpticalCharacterRecognitionApp";
+			};
+			name = Debug;
+		};
+		04AC22C32B68B740009B5EA9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P85DW78LYM;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = SwainYun.OpticalCharacterRecognitionAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpticalCharacterRecognitionApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OpticalCharacterRecognitionApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -400,6 +540,15 @@
 			buildConfigurations = (
 				04AC22932B677DAB009B5EA9 /* Debug */,
 				04AC22942B677DAB009B5EA9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04AC22C42B68B740009B5EA9 /* Build configuration list for PBXNativeTarget "OpticalCharacterRecognitionAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04AC22C22B68B740009B5EA9 /* Debug */,
+				04AC22C32B68B740009B5EA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
