@@ -1,6 +1,6 @@
 import UIKit
 
-final class ViewController: UIViewController {
+final class ScannerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
