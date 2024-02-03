@@ -19,42 +19,46 @@ final class DefaultDocumentDetector {
     // MARK: Interface
     func detect(on pixelBuffer: CVPixelBuffer) throws {
         guard let lastObservation = lastObservation else {
-            let request = VNDetectRectanglesRequest(completionHandler: handleDetectionRequestUpdate)
-            let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer)
-            try handler.perform([request])
+            try detectRectangle(on: pixelBuffer)
             return
         }
-        try detectRectangleOnPixelBuffer(on: pixelBuffer, detectedObservation: lastObservation)
+        try trackRectangle(on: pixelBuffer, detectedObservation: lastObservation)
     }
 }
 
 // MARK: Private Methods
 extension DefaultDocumentDetector {
-    private func detectRectangleOnPixelBuffer(on pixelBuffer: CVPixelBuffer, detectedObservation: VNRectangleObservation) throws {
+    private func detectRectangle(on pixelBuffer: CVPixelBuffer) throws {
+        let request = VNDetectRectanglesRequest(completionHandler: handleDetectionRequestUpdate)
+        request.minimumAspectRatio = VNAspectRatio(0.6)
+        request.maximumAspectRatio = VNAspectRatio(1.0)
+        try visionSequenceHandler.perform([request], on: pixelBuffer)
+    }
+    
+    private func trackRectangle(on pixelBuffer: CVPixelBuffer, detectedObservation: VNRectangleObservation) throws {
         let request = VNTrackRectangleRequest(rectangleObservation: detectedObservation, completionHandler: handleDetectionRequestUpdate)
         request.trackingLevel = .accurate
-        
         try visionSequenceHandler.perform([request], on: pixelBuffer)
     }
     
     private func handleDetectionRequestUpdate(_ request: VNRequest, error: Error?) {
-        guard let newObservation = request.results?.first as? VNRectangleObservation else {
-            print("감지 실패 --------- 1")
+        guard let observations = request.results as? [VNRectangleObservation],
+              let newObservation = observations.max(by: { $0.area >= $1.area })
+        else {
             invalidateDetectionTimer()
             return
         }
         
+        
         lastObservation = newObservation
         
         guard newObservation.confidence >= 0.3 else {
-            print("낮은 신뢰도 --------- 2")
             delegate?.notifyTrackingResult(self, rectangle: nil, error: DetectError.rectangleDetectionFailed)
             invalidateDetectionTimer()
             return
         }
         
         let trackedRectangle = TrackedRectangle(observation: newObservation)
-        print("감지 성공 --------- 3")
         delegate?.notifyTrackingResult(self, rectangle: trackedRectangle, error: nil)
         
         setUpDetectionTimer()
@@ -71,6 +75,7 @@ extension DefaultDocumentDetector {
     }
     
     private func invalidateDetectionTimer() {
+        guard detectionTimer != nil else { return }
         detectionTimer?.invalidate()
         detectionTimer = nil
     }
