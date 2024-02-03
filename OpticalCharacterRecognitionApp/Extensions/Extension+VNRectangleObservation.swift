@@ -1,8 +1,13 @@
-//
-//  Extension+VNRectangleObservation.swift
-//  OpticalCharacterRecognitionApp
-//
-//  Created by Swain Yun on 2/3/24.
-//
+import Vision
 
-import Foundation
+extension VNRectangleObservation {
+    var area: CGFloat {
+        let minX = min(topLeft.x, bottomLeft.x)
+        let minY = min(bottomLeft.y, bottomRight.y)
+        let maxX = max(bottomRight.x, topRight.x)
+        let maxY = max(topLeft.y, topRight.y)
+        let width = maxX - minX
+        let height = maxY - minY
+        return width * height
+    }
+}
