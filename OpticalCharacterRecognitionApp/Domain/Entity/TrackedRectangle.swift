@@ -20,16 +20,6 @@ struct TrackedRectangle {
         return topLeftRect.union(topRightRect).union(bottomLeftRect).union(bottomRightRect)
     }
     
-    var area: CGFloat {
-        let minX = min(topLeft.x, bottomLeft.x)
-        let minY = min(bottomLeft.y, bottomRight.y)
-        let maxX = max(bottomRight.x, topRight.x)
-        let maxY = max(topLeft.y, topRight.y)
-        let width = maxX - minX
-        let height = maxY - minY
-        return width * height
-    }
-    
     init(observation: VNRectangleObservation) {
         self.topLeft = observation.topLeft
         self.topRight = observation.topRight
