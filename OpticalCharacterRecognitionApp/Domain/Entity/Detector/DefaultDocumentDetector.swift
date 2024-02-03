@@ -1,11 +1,11 @@
 import Foundation
 import CoreImage
 
-protocol DocumentDetectUseCase {
+protocol DocumentDetector {
     func detect(in ciImage: CIImage) throws -> CIRectangleFeature
 }
 
-final class DefaultDocumentDetectUseCase: DocumentDetectUseCase {
+final class DefaultDocumentDetector: DocumentDetector {
     
     // MARK: Properties
     private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
@@ -27,7 +27,7 @@ final class DefaultDocumentDetectUseCase: DocumentDetectUseCase {
 }
 
 // MARK: Private Methods
-extension DefaultDocumentDetectUseCase {
+extension DefaultDocumentDetector {
     private func extractFeature(in ciImage: CIImage, options: [String: Any]?) throws -> [CIRectangleFeature] {
         guard let rectangles = detector?.features(in: ciImage, options: options) as? [CIRectangleFeature] else {
             throw DetectError.imageNotFound

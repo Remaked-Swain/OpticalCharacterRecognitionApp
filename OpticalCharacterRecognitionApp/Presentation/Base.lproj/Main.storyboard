@@ -16,6 +16,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0CW-gv-4ZA">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="um3-fD-lUO"/>
@@ -32,14 +33,120 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-1U-fxm">
+                                <rect key="frame" x="0.0" y="783.66666666666663" width="393" height="34.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcX-cs-Ltw">
+                                        <rect key="frame" x="0.0" y="0.0" width="131" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="미리보기"/>
+                                        <connections>
+                                            <action selector="touchUpPreviewerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kaP-r6-zdM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-uT-hXx">
+                                        <rect key="frame" x="131" y="0.0" width="131" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="찰칵"/>
+                                        <connections>
+                                            <action selector="touchUpTakeCaptureButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CkQ-69-Pvv"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2P-6t-uWO">
+                                        <rect key="frame" x="262" y="0.0" width="131" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="저장"/>
+                                        <connections>
+                                            <action selector="touchUpSaveCaptureButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="voI-GQ-bHV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="103" width="393" height="680.66666666666663"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="AaY-rR-Kp5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zvr-1U-fxm" secondAttribute="bottom" id="DEc-VL-vla"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="TZV-Bk-iK9"/>
+                            <constraint firstItem="zvr-1U-fxm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U9b-iU-gf5"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YQL-Nz-6TF"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zvr-1U-fxm" secondAttribute="trailing" id="Yf6-zm-DND"/>
+                            <constraint firstItem="zvr-1U-fxm" firstAttribute="top" secondItem="Pat-9u-7ZN" secondAttribute="bottom" id="wyC-SB-fuQ"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Z8x-Hi-6ET"/>
+                    <navigationItem key="navigationItem" id="Z8x-Hi-6ET">
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="mUc-Ak-oC3">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="GkD-86-Qkv">
+                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="취소"/>
+                                <connections>
+                                    <action selector="touchUpCancelButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="UzX-un-Xha"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="B4D-m9-hZv">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="D44-cR-r68">
+                                <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="자동"/>
+                                <connections>
+                                    <action selector="touchUpCaptureModeButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xvq-xa-xZQ"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="GkD-86-Qkv" id="stJ-ea-LWw"/>
+                        <outlet property="captureModeButton" destination="D44-cR-r68" id="enR-f9-AtW"/>
+                        <outlet property="saveCaptureButton" destination="n2P-6t-uWO" id="UHP-Wy-h4q"/>
+                        <outlet property="takeCaptureButton" destination="wPj-uT-hXx" id="THE-tQ-fJo"/>
+                        <outlet property="videoView" destination="Pat-9u-7ZN" id="bnB-ta-Y2o"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-324" y="-75"/>
+            <point key="canvasLocation" x="-324.4274809160305" y="-75.352112676056336"/>
+        </scene>
+        <!--Previewer View Controller-->
+        <scene sceneID="cNG-VA-osn">
+            <objects>
+                <viewController id="I0V-lF-KcQ" customClass="PreviewerViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="E2S-jx-d37">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="zeO-T6-JCg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="REj-bn-Iny" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="456" y="-333"/>
+        </scene>
+        <!--Previewer View Controller-->
+        <scene sceneID="BsK-Kb-WQm">
+            <objects>
+                <viewController id="gUJ-gT-Xa7" customClass="PreviewerViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hzS-Ci-ucK">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="XIL-Et-oJW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lNZ-pn-5sf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x55-ca-ynL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="457" y="314"/>
         </scene>
     </scenes>
     <resources>

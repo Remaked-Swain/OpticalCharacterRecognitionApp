@@ -15,13 +15,17 @@
 		04AC228E2B677DAB009B5EA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AC228C2B677DAB009B5EA9 /* LaunchScreen.storyboard */; };
 		04AC22BF2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22BE2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift */; };
 		04AC22C62B68BB56009B5EA9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 04AC22C52B68BB56009B5EA9 /* README.md */; };
-		04AC22CB2B693700009B5EA9 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22CA2B693700009B5EA9 /* Document.swift */; };
-		04AC22D82B6A1FB3009B5EA9 /* ThemeColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22D72B6A1FB3009B5EA9 /* ThemeColor.swift */; };
-		04AC22DA2B6A2CA3009B5EA9 /* CapturePhotoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22D92B6A2CA3009B5EA9 /* CapturePhotoUseCase.swift */; };
-		04AC22DC2B6A33A8009B5EA9 /* DefaultDocumentDetectUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetectUseCase.swift */; };
+		04AC22D82B6A1FB3009B5EA9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22D72B6A1FB3009B5EA9 /* Theme.swift */; };
+		04AC22DA2B6A2CA3009B5EA9 /* DefaultPhotoCaptureProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22D92B6A2CA3009B5EA9 /* DefaultPhotoCaptureProcessor.swift */; };
+		04AC22DC2B6A33A8009B5EA9 /* DefaultDocumentDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetector.swift */; };
 		04AC22DF2B6A372E009B5EA9 /* DetectError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22DE2B6A372E009B5EA9 /* DetectError.swift */; };
-		04AC22E22B6A6012009B5EA9 /* Extension+CIRectangleFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22E12B6A6012009B5EA9 /* Extension+CIRectangleFeature.swift */; };
 		04AC22E42B6A63C1009B5EA9 /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22E32B6A63C1009B5EA9 /* FilterType.swift */; };
+		04AC22E72B6B3A80009B5EA9 /* CameraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22E62B6B3A80009B5EA9 /* CameraError.swift */; };
+		04AC22E92B6B7237009B5EA9 /* ResolutionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22E82B6B7237009B5EA9 /* ResolutionType.swift */; };
+		04AC22EB2B6B82C5009B5EA9 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22EA2B6B82C5009B5EA9 /* VideoView.swift */; };
+		04AC22EF2B6CC4B2009B5EA9 /* PreviewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22EE2B6CC4B2009B5EA9 /* PreviewerViewController.swift */; };
+		04AC22F12B6CC4C5009B5EA9 /* RepointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22F02B6CC4C5009B5EA9 /* RepointViewController.swift */; };
+		04AC22F52B6CE393009B5EA9 /* TrackedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22F42B6CE393009B5EA9 /* TrackedRectangle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,13 +50,17 @@
 		04AC22BC2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpticalCharacterRecognitionAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AC22BE2B68B740009B5EA9 /* OpticalCharacterRecognitionAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpticalCharacterRecognitionAppTests.swift; sourceTree = "<group>"; };
 		04AC22C52B68BB56009B5EA9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		04AC22CA2B693700009B5EA9 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		04AC22D72B6A1FB3009B5EA9 /* ThemeColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColor.swift; sourceTree = "<group>"; };
-		04AC22D92B6A2CA3009B5EA9 /* CapturePhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePhotoUseCase.swift; sourceTree = "<group>"; };
-		04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetectUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDocumentDetectUseCase.swift; sourceTree = "<group>"; };
+		04AC22D72B6A1FB3009B5EA9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		04AC22D92B6A2CA3009B5EA9 /* DefaultPhotoCaptureProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoCaptureProcessor.swift; sourceTree = "<group>"; };
+		04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDocumentDetector.swift; sourceTree = "<group>"; };
 		04AC22DE2B6A372E009B5EA9 /* DetectError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectError.swift; sourceTree = "<group>"; };
-		04AC22E12B6A6012009B5EA9 /* Extension+CIRectangleFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+CIRectangleFeature.swift"; sourceTree = "<group>"; };
 		04AC22E32B6A63C1009B5EA9 /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
+		04AC22E62B6B3A80009B5EA9 /* CameraError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraError.swift; sourceTree = "<group>"; };
+		04AC22E82B6B7237009B5EA9 /* ResolutionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResolutionType.swift; sourceTree = "<group>"; };
+		04AC22EA2B6B82C5009B5EA9 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		04AC22EE2B6CC4B2009B5EA9 /* PreviewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewerViewController.swift; sourceTree = "<group>"; };
+		04AC22F02B6CC4C5009B5EA9 /* RepointViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepointViewController.swift; sourceTree = "<group>"; };
+		04AC22F42B6CE393009B5EA9 /* TrackedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRectangle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				04AC22852B677DAA009B5EA9 /* ScannerViewController.swift */,
+				04AC22EA2B6B82C5009B5EA9 /* VideoView.swift */,
+				04AC22EE2B6CC4B2009B5EA9 /* PreviewerViewController.swift */,
+				04AC22F02B6CC4C5009B5EA9 /* RepointViewController.swift */,
 				04AC22872B677DAA009B5EA9 /* Main.storyboard */,
 				04AC228C2B677DAB009B5EA9 /* LaunchScreen.storyboard */,
 			);
@@ -118,8 +129,6 @@
 		04AC22972B677E5D009B5EA9 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
-				04AC22DD2B6A371C009B5EA9 /* Detector */,
-				04AC22D92B6A2CA3009B5EA9 /* CapturePhotoUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -127,10 +136,12 @@
 		04AC22982B677E65009B5EA9 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				04AC22CA2B693700009B5EA9 /* Document.swift */,
-				04AC22D72B6A1FB3009B5EA9 /* ThemeColor.swift */,
+				04AC22E52B6B2CE7009B5EA9 /* Camera */,
+				04AC22DD2B6A371C009B5EA9 /* Detector */,
+				04AC22F42B6CE393009B5EA9 /* TrackedRectangle.swift */,
+				04AC22D72B6A1FB3009B5EA9 /* Theme.swift */,
 				04AC22E32B6A63C1009B5EA9 /* FilterType.swift */,
-				04AC22E02B6A5FF4009B5EA9 /* Extension */,
+				04AC22E82B6B7237009B5EA9 /* ResolutionType.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -179,18 +190,19 @@
 		04AC22DD2B6A371C009B5EA9 /* Detector */ = {
 			isa = PBXGroup;
 			children = (
-				04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetectUseCase.swift */,
+				04AC22DB2B6A33A8009B5EA9 /* DefaultDocumentDetector.swift */,
 				04AC22DE2B6A372E009B5EA9 /* DetectError.swift */,
 			);
 			path = Detector;
 			sourceTree = "<group>";
 		};
-		04AC22E02B6A5FF4009B5EA9 /* Extension */ = {
+		04AC22E52B6B2CE7009B5EA9 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				04AC22E12B6A6012009B5EA9 /* Extension+CIRectangleFeature.swift */,
+				04AC22D92B6A2CA3009B5EA9 /* DefaultPhotoCaptureProcessor.swift */,
+				04AC22E62B6B3A80009B5EA9 /* CameraError.swift */,
 			);
-			path = Extension;
+			path = Camera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,16 +307,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04AC22DA2B6A2CA3009B5EA9 /* CapturePhotoUseCase.swift in Sources */,
-				04AC22CB2B693700009B5EA9 /* Document.swift in Sources */,
+				04AC22DA2B6A2CA3009B5EA9 /* DefaultPhotoCaptureProcessor.swift in Sources */,
+				04AC22E92B6B7237009B5EA9 /* ResolutionType.swift in Sources */,
+				04AC22EF2B6CC4B2009B5EA9 /* PreviewerViewController.swift in Sources */,
+				04AC22E72B6B3A80009B5EA9 /* CameraError.swift in Sources */,
+				04AC22EB2B6B82C5009B5EA9 /* VideoView.swift in Sources */,
 				04AC22E42B6A63C1009B5EA9 /* FilterType.swift in Sources */,
-				04AC22E22B6A6012009B5EA9 /* Extension+CIRectangleFeature.swift in Sources */,
+				04AC22F12B6CC4C5009B5EA9 /* RepointViewController.swift in Sources */,
 				04AC22DF2B6A372E009B5EA9 /* DetectError.swift in Sources */,
-				04AC22DC2B6A33A8009B5EA9 /* DefaultDocumentDetectUseCase.swift in Sources */,
+				04AC22DC2B6A33A8009B5EA9 /* DefaultDocumentDetector.swift in Sources */,
 				04AC22862B677DAA009B5EA9 /* ScannerViewController.swift in Sources */,
+				04AC22F52B6CE393009B5EA9 /* TrackedRectangle.swift in Sources */,
 				04AC22822B677DAA009B5EA9 /* AppDelegate.swift in Sources */,
 				04AC22842B677DAA009B5EA9 /* SceneDelegate.swift in Sources */,
-				04AC22D82B6A1FB3009B5EA9 /* ThemeColor.swift in Sources */,
+				04AC22D82B6A1FB3009B5EA9 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,11 +491,11 @@
 				DEVELOPMENT_TEAM = P85DW78LYM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpticalCharacterRecognitionApp/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "문서를 인식하고 촬영하기 위해서 카메라 사용 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -508,11 +524,11 @@
 				DEVELOPMENT_TEAM = P85DW78LYM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpticalCharacterRecognitionApp/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "문서를 인식하고 촬영하기 위해서 카메라 사용 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
