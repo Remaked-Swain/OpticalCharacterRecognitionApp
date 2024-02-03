@@ -1,24 +1,30 @@
 import Foundation
+import CoreImage
 import AVFoundation
 
-protocol PhotoCapture {
-    func checkPermission() async -> Bool
-    func setUpCaptureSession()
-    func capture(resolution: ResolutionType, quality: AVCapturePhotoOutput.QualityPrioritization)
+protocol CaptureProcessorDelegate: AnyObject {
+    func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput pixelBuffer: CVPixelBuffer)
 }
 
-final class DefaultPhotoCaptureProcessor: PhotoCapture {
+protocol PhotoCaptureProcessor {
+    var delegate: CaptureProcessorDelegate? { get set }
+    var session: AVCaptureSession { get }
+    func checkPermission() async -> Bool
+    func setUpCaptureSession()
+    func capture()
+    func start()
+    func stop()
+}
+
+final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     // MARK: Properties
-    private let session: AVCaptureSession = {
-        let session = AVCaptureSession()
-        session.sessionPreset = .medium
-        return session
-    }()
-    private let output = AVCapturePhotoOutput()
-    private let previewLayer = AVCaptureVideoPreviewLayer()
+    let session: AVCaptureSession = AVCaptureSession()
+    private let photoOutput = AVCapturePhotoOutput()
+    private let videoOutput = AVCaptureVideoDataOutput()
+    private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
     
     // MARK: Dependencies
-    weak var delegate: AVCapturePhotoCaptureDelegate?
+    weak var delegate: CaptureProcessorDelegate?
     
     // MARK: Interface
     func checkPermission() async -> Bool {
@@ -30,8 +36,8 @@ final class DefaultPhotoCaptureProcessor: PhotoCapture {
             isAuthorized = true
         case .notDetermined, .restricted, .denied:
             isAuthorized = await AVCaptureDevice.requestAccess(for: .video)
-        default:
-            break
+        @unknown default:
+            fatalError("알려지지 않은 카메라 장치 권한 획득 유형이 존재")
         }
         
         return isAuthorized
@@ -40,10 +46,13 @@ final class DefaultPhotoCaptureProcessor: PhotoCapture {
     func setUpCaptureSession() {
         guard session.inputs.isEmpty else { return }
         session.beginConfiguration()
+        setUpVideoOutput()
         
         do {
             let videoDevice = try selectCaptureDevice(in: .back)
             addCaptureDeviceInput(device: videoDevice)
+            addCaptureDeviceOutput()
+            start()
         } catch {
             guard let error = error as? CameraError else {
                 return print(error)
@@ -52,14 +61,27 @@ final class DefaultPhotoCaptureProcessor: PhotoCapture {
         }
     }
     
-    func capture(resolution: ResolutionType = .quadHD, quality: AVCapturePhotoOutput.QualityPrioritization = .balanced) {
-        guard let delegate = delegate else { return }
-        let dimension = resolution.dimension
+    func capture() {
+        let dimension = ResolutionType.HD.dimension
         let settings = AVCapturePhotoSettings()
         settings.maxPhotoDimensions = CMVideoDimensions(width: dimension.width, height: dimension.height)
         settings.flashMode = .auto
-        settings.photoQualityPrioritization = quality
-        output.capturePhoto(with: settings, delegate: delegate)
+        settings.photoQualityPrioritization = .balanced
+        photoOutput.capturePhoto(with: settings, delegate: self)
+    }
+    
+    func start() {
+        guard session.isRunning == false else { return }
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.session.startRunning()
+        }
+    }
+    
+    func stop() {
+        guard session.isRunning == true else { return }
+        
+        session.stopRunning()
     }
 }
 
@@ -91,7 +113,30 @@ extension DefaultPhotoCaptureProcessor {
     }
     
     private func addCaptureDeviceOutput() {
-        let photoOutput = AVCapturePhotoOutput()
-        guard session.canAddOutput(<#T##output: AVCaptureOutput##AVCaptureOutput#>)
+        guard session.canAddOutput(photoOutput),
+              session.canAddOutput(videoOutput)
+        else { return }
+        session.sessionPreset = .photo
+        session.addOutput(photoOutput)
+        session.addOutput(videoOutput)
+        session.commitConfiguration()
+    }
+    
+    private func setUpVideoOutput() {
+        videoOutput.setSampleBufferDelegate(self, queue: sampleBufferQueue)
+    }
+}
+
+extension DefaultPhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        delegate?.captureOutput(self, didOutput: pixelBuffer)
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let error = error else {
+            return print("사진 촬영됨")
+        }
+        print(error)
     }
 }
