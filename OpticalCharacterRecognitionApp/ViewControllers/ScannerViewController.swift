@@ -3,12 +3,8 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     // MARK: Dependencies
-    private lazy var photoCaptureProcessor: PhotoCaptureProcessor = {
-        let processor = DefaultPhotoCaptureProcessor()
-        processor.delegate = self
-        return processor
-    }()
-    private let detector: DefaultDocumentDetector = DefaultDocumentDetector()
+    private let photoCaptureProcessor: PhotoCaptureProcessor = DefaultPhotoCaptureProcessor()
+    private let detector: DocumentDetector = DefaultDocumentDetector()
     
     // MARK: IBOutlets
     @IBOutlet private weak var cancelButton: UIButton!
@@ -20,17 +16,29 @@ final class ScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        photoCaptureProcessor.delegate = self
+        detector.delegate = self
         videoView.session = photoCaptureProcessor.session
         
-        Task {
-            guard await photoCaptureProcessor.checkPermission() else { return }
-            photoCaptureProcessor.setUpCaptureSession()
+        do {
+            try photoCaptureProcessor.checkPermission { [weak self] granted in
+                if granted {
+                    self?.photoCaptureProcessor.setUpCaptureSession()
+                }
+            }
+        } catch {
+            guard let error = error as? CameraError else { return }
+            print(error.debugDescription)
         }
     }
     
     // MARK: IBActions
     @IBAction private func touchUpCancelButton(_ sender: UIButton) {
-        photoCaptureProcessor.stop()
+        if photoCaptureProcessor.session.isRunning {
+            photoCaptureProcessor.stop()
+        } else {
+            photoCaptureProcessor.start()
+        }
     }
     @IBAction private func touchUpCaptureModeButton(_ sender: UIButton) {
         
@@ -49,24 +57,24 @@ final class ScannerViewController: UIViewController {
 // MARK: CaptureProcessorDelegate Confirmation
 extension ScannerViewController: CaptureProcessorDelegate {
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput pixelBuffer: CVPixelBuffer) {
-        do {
-            try detector.detect(on: pixelBuffer)
-        } catch {
-            videoView.trackedRectangle = nil
-        }
+        detector.detect(on: pixelBuffer)
+    }
+    
+    func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput ciImage: CIImage?, withError error: Error?) {
+        
     }
 }
 
 // MARK: VisionTrackerProcessDelegate Confirmation
-extension ScannerViewController: VisionTrackerProcessDelegate {
-    func notifyTrackingResult(_ delegate: DefaultDocumentDetector, rectangle: TrackedRectangle?, error: Error?) {
+extension ScannerViewController: DetectingProcessDelegate {
+    func notifyDetectingResult(_ delegate: DefaultDocumentDetector, rectangle: TrackedRectangle?, error: Error?) {
         DispatchQueue.main.async { [weak self] in
             self?.videoView.trackedRectangle = rectangle
         }
     }
     
-    func didFinishTracking(_ delegate: DefaultDocumentDetector, isFinish: Bool) {
-//        photoCaptureProcessor.capture()
+    func didFinishTracking(_ delegate: DefaultDocumentDetector) {
+        photoCaptureProcessor.capture()
         photoCaptureProcessor.stop()
     }
 }

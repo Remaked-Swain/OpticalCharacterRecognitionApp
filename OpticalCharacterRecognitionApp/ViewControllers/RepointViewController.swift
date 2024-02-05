@@ -1,10 +1,3 @@
-//
-//  RepointViewController.swift
-//  OpticalCharacterRecognitionApp
-//
-//  Created by Swain Yun on 2/2/24.
-//
-
 import UIKit
 
 final class RepointViewController: UIViewController {

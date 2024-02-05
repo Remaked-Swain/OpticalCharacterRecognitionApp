@@ -34,11 +34,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-1U-fxm">
-                                <rect key="frame" x="0.0" y="783.66666666666663" width="393" height="34.333333333333371"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="103" width="393" height="680.66666666666663"/>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-1U-fxm">
+                                <rect key="frame" x="8" y="783.66666666666663" width="377" height="34.333333333333371"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcX-cs-Ltw">
-                                        <rect key="frame" x="0.0" y="0.0" width="131" height="34.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="83" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="미리보기"/>
                                         <connections>
@@ -46,15 +49,15 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-uT-hXx">
-                                        <rect key="frame" x="131" y="0.0" width="131" height="34.333333333333336"/>
+                                        <rect key="frame" x="171" y="0.0" width="49.666666666666657" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="찰칵"/>
+                                        <buttonConfiguration key="configuration" style="filled" image="camera.aperture" catalog="system"/>
                                         <connections>
                                             <action selector="touchUpTakeCaptureButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CkQ-69-Pvv"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2P-6t-uWO">
-                                        <rect key="frame" x="262" y="0.0" width="131" height="34.333333333333336"/>
+                                        <rect key="frame" x="323.33333333333331" y="0.0" width="53.666666666666686" height="34.333333333333336"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="저장"/>
                                         <connections>
@@ -63,25 +66,22 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="103" width="393" height="680.66666666666663"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="AaY-rR-Kp5"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zvr-1U-fxm" secondAttribute="bottom" id="DEc-VL-vla"/>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="TZV-Bk-iK9"/>
-                            <constraint firstItem="zvr-1U-fxm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="U9b-iU-gf5"/>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="YQL-Nz-6TF"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zvr-1U-fxm" secondAttribute="trailing" id="Yf6-zm-DND"/>
-                            <constraint firstItem="zvr-1U-fxm" firstAttribute="top" secondItem="Pat-9u-7ZN" secondAttribute="bottom" id="wyC-SB-fuQ"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="EtR-Vs-474"/>
+                            <constraint firstItem="zvr-1U-fxm" firstAttribute="top" secondItem="Pat-9u-7ZN" secondAttribute="bottom" id="HiW-Od-H0f"/>
+                            <constraint firstItem="zvr-1U-fxm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="U7E-g4-pzy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zvr-1U-fxm" secondAttribute="trailing" constant="8" id="dWn-GB-Zrn"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nu8-Vq-Ey1"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sNE-6J-ryc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zvr-1U-fxm" secondAttribute="bottom" id="xOX-yA-Wq7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Z8x-Hi-6ET">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="mUc-Ak-oC3">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="GkD-86-Qkv">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="GkD-86-Qkv">
                                 <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -93,7 +93,7 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="B4D-m9-hZv">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="D44-cR-r68">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="D44-cR-r68">
                                 <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -150,6 +150,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="camera.aperture" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
