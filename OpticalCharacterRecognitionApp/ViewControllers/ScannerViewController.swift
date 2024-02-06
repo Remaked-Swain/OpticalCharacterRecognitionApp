@@ -17,7 +17,6 @@ final class ScannerViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         photoCaptureProcessor.delegate = self
-        detector.delegate = self
         videoView.session = photoCaptureProcessor.session
         
         do {
@@ -30,6 +29,11 @@ final class ScannerViewController: UIViewController {
             guard let error = error as? CameraError else { return }
             print(error.debugDescription)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        videoView.videoPreviewLayer.frame = videoView.bounds
     }
     
     // MARK: IBActions
@@ -57,7 +61,13 @@ final class ScannerViewController: UIViewController {
 // MARK: CaptureProcessorDelegate Confirmation
 extension ScannerViewController: CaptureProcessorDelegate {
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput pixelBuffer: CVPixelBuffer) {
-        detector.detect(on: pixelBuffer)
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let transformedImage = transformImage(ciImage)
+        guard let trackedRectangle = detector.detect(in: transformedImage) else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.videoView.updateRectangleOverlay(trackedRectangle, originImageRect: ciImage.extent)
+        }
     }
     
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput ciImage: CIImage?, withError error: Error?) {
@@ -65,16 +75,11 @@ extension ScannerViewController: CaptureProcessorDelegate {
     }
 }
 
-// MARK: VisionTrackerProcessDelegate Confirmation
-extension ScannerViewController: DetectingProcessDelegate {
-    func notifyDetectingResult(_ delegate: DefaultDocumentDetector, rectangle: TrackedRectangle?, error: Error?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.videoView.trackedRectangle = rectangle
-        }
-    }
-    
-    func didFinishTracking(_ delegate: DefaultDocumentDetector) {
-        photoCaptureProcessor.capture()
-        photoCaptureProcessor.stop()
+// MARK: Private Methods
+extension ScannerViewController {
+    private func transformImage(_ ciImage: CIImage) -> CIImage {
+        let transform = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -ciImage.extent.height)
+        let transformedCIImage = ciImage.transformed(by: transform)
+        return transformedCIImage
     }
 }

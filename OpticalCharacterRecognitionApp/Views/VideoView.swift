@@ -7,10 +7,9 @@ final class VideoView: UIView {
         return AVCaptureVideoPreviewLayer.self
     }
     
-    private lazy var videoPreviewLayer: AVCaptureVideoPreviewLayer = {
+    lazy var videoPreviewLayer: AVCaptureVideoPreviewLayer = {
         let layer = AVCaptureVideoPreviewLayer()
-        layer.frame = self.bounds
-        layer.videoGravity = .resizeAspect
+        layer.videoGravity = .resizeAspectFill
         self.layer.addSublayer(layer)
         return layer
     }()
@@ -26,47 +25,52 @@ final class VideoView: UIView {
     
     private var highlightLayer: CAShapeLayer?
     
-    var trackedRectangle: TrackedRectangle? {
-        didSet {
-            Task {
-                drawHighlightLayer()
-            }
-        }
+    // MARK: Public
+    func updateRectangleOverlay(_ rectangle: TrackedRectangle, originImageRect rect: CGRect) {
+        highlightLayer?.removeFromSuperlayer()
+
+        let scaledRectangle = convertRectangleCoordinatesSpace(rectangle, originImageRect: rect)
+        print(scaledRectangle)
+
+        let layer = createShapeLayer(for: scaledRectangle)
+        let path = createPath(for: scaledRectangle)
+        layer.path = path.cgPath
+        
+        videoPreviewLayer.addSublayer(layer)
+        highlightLayer = layer
     }
 }
 
 // MARK: Draw Methods
 extension VideoView {
-    private func drawHighlightLayer() {
-        removeHighlightLayer()
-        
-        guard let trackedRectangle = trackedRectangle else { return }
-        
-        let convertedRect = convertRect(form: trackedRectangle.boundingBox, toViewRect: bounds)
-        let newLayer = createHighlightLayer(in: convertedRect)
-        highlightLayer = newLayer
-        layer.addSublayer(newLayer)
+    private func convertRectangleCoordinatesSpace(_ rectangle: TrackedRectangle, originImageRect rect: CGRect) -> TrackedRectangle {
+        let scaleX = videoPreviewLayer.bounds.width / rect.width
+        let scaleY = videoPreviewLayer.bounds.height / rect.height
+        let scaledCornerPoints = rectangle.cornerPoints.map { $0.scaled(valueX: scaleX, valueY: scaleY) }
+        return TrackedRectangle(cornerPoints: scaledCornerPoints)
     }
     
-    private func createHighlightLayer(in rect: CGRect) -> CAShapeLayer {
-        let path = UIBezierPath(rect: rect)
+    private func createShapeLayer(for rectangle: TrackedRectangle) -> CAShapeLayer {
+        let strokeColor = Theme.paintColor(color: .secondary, alpha: 1).cgColor
+        let fillColor = Theme.paintColor(color: .primary, alpha: 0.5).cgColor
         let layer = CAShapeLayer()
-        layer.path = path.cgPath
-        layer.strokeColor = Theme.paintColor(color: .secondary, alpha: 1).cgColor
-        layer.fillColor = Theme.paintColor(color: .primary, alpha: 0.5).cgColor
+        layer.frame = rectangle.boundingBox
+        layer.strokeColor = strokeColor
+        layer.fillColor = fillColor
         layer.lineWidth = 4
         return layer
     }
     
-    private func removeHighlightLayer() {
-        highlightLayer?.removeFromSuperlayer()
-    }
-    
-    private func convertRect(form rect: CGRect, toViewRect viewRect: CGRect) -> CGRect {
-        let x = rect.origin.x * viewRect.width
-        let y = (1 - rect.origin.y - rect.height) * viewRect.height
-        let width = rect.width * viewRect.width
-        let height = rect.height * viewRect.height
-        return CGRect(x: x, y: y, width: width, height: height)
+    private func createPath(for rectangle: TrackedRectangle) -> UIBezierPath {
+        let path = UIBezierPath()
+        for (index, point) in rectangle.cornerPoints.enumerated() {
+            if index == 0 {
+                path.move(to: point)
+            } else {
+                path.addLine(to: point)
+            }
+        }
+        path.close()
+        return path
     }
 }

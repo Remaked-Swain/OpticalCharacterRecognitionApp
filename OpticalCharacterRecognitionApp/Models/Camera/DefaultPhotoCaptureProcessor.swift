@@ -23,6 +23,13 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
+    private let rendererContext = CIContext()
+    private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
+                                                   context: nil,
+                                                   options: [
+                                                    CIDetectorAccuracy: CIDetectorAccuracyHigh,
+                                                    CIDetectorImageOrientation: 6
+                                                   ])
     
     // MARK: Dependencies
     weak var delegate: CaptureProcessorDelegate?
@@ -68,6 +75,7 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     
     func start() {
         guard session.isRunning == false else { return }
+        videoOutput.setSampleBufferDelegate(self, queue: sampleBufferQueue)
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.session.startRunning()
         }
@@ -75,6 +83,7 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     
     func stop() {
         guard session.isRunning == true else { return }
+        videoOutput.setSampleBufferDelegate(nil, queue: nil)
         session.stopRunning()
     }
 }
@@ -120,14 +129,10 @@ extension DefaultPhotoCaptureProcessor {
         if session.canSetSessionPreset(.hd4K3840x2160) {
             session.sessionPreset = .hd4K3840x2160
         }
-        setUpVideoOutput()
+        
         session.addOutput(photoOutput)
         session.addOutput(videoOutput)
         session.commitConfiguration()
-    }
-    
-    private func setUpVideoOutput() {
-        videoOutput.setSampleBufferDelegate(self, queue: sampleBufferQueue)
     }
 }
 

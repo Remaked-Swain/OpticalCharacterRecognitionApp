@@ -1,6 +1,6 @@
-import Vision
+import CoreImage
 
-extension VNRectangleObservation {
+extension CIRectangleFeature {
     var area: CGFloat {
         let minX = min(topLeft.x, bottomLeft.x)
         let minY = min(bottomLeft.y, bottomRight.y)

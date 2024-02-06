@@ -1,6 +1,19 @@
 import Foundation
-import Vision
+import CoreImage
 
+/**
+ 추적 중인 사각형 물체를 설명합니다.
+ 
+ ```swift
+ init(cornerPoints: [CGPoint]) {
+     self.topLeft = cornerPoints[0]
+     self.topRight = cornerPoints[1]
+     self.bottomLeft = cornerPoints[2]
+     self.bottomRight = cornerPoints[3]
+ }
+ ```
+ - Important: 다음과 같은 배열의 순서로 초기화합니다. [topLeft, topRight, bottomRight, bottomLeft]
+ */
 struct TrackedRectangle {
     let topLeft: CGPoint
     let topRight: CGPoint
@@ -12,12 +25,11 @@ struct TrackedRectangle {
     }
     
     var boundingBox: CGRect {
-        let topLeftRect = CGRect(origin: topLeft, size: .zero)
-        let topRightRect = CGRect(origin: topRight, size: .zero)
-        let bottomLeftRect = CGRect(origin: bottomLeft, size: .zero)
-        let bottomRightRect = CGRect(origin: bottomRight, size: .zero)
-        
-        return topLeftRect.union(topRightRect).union(bottomLeftRect).union(bottomRightRect)
+        let minX = min(topLeft.x, bottomLeft.x)
+        let minY = min(topLeft.y, topRight.y)
+        let maxX = max(bottomRight.x, topRight.x)
+        let maxY = max(bottomLeft.y, bottomRight.y)
+        return CGRect(x: minX, y: minY, width: maxX-minX, height: maxY-minY)
     }
     
     var area: CGFloat {
@@ -30,17 +42,29 @@ struct TrackedRectangle {
         return width * height
     }
     
-    init(observation: VNRectangleObservation) {
-        self.topLeft = observation.topLeft
-        self.topRight = observation.topRight
-        self.bottomLeft = observation.bottomLeft
-        self.bottomRight = observation.bottomRight
+    init(rectangleFeature: CIRectangleFeature) {
+        self.topLeft = rectangleFeature.topLeft
+        self.topRight = rectangleFeature.topRight
+        self.bottomLeft = rectangleFeature.bottomLeft
+        self.bottomRight = rectangleFeature.bottomRight
     }
     
-    init(cgRect: CGRect) {
-        self.topLeft = CGPoint(x: cgRect.minX, y: cgRect.maxY)
-        self.topRight = CGPoint(x: cgRect.maxX, y: cgRect.maxY)
-        self.bottomLeft = CGPoint(x: cgRect.minX, y: cgRect.minY)
-        self.bottomRight = CGPoint(x: cgRect.maxX, y: cgRect.minY)
+    init(topLeft: CGPoint, topRight: CGPoint, bottomLeft: CGPoint, bottomRight: CGPoint) {
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
     }
+    
+    init(cornerPoints: [CGPoint]) {
+        self.topLeft = cornerPoints[0]
+        self.topRight = cornerPoints[1]
+        self.bottomLeft = cornerPoints[2]
+        self.bottomRight = cornerPoints[3]
+    }
+}
+
+// MARK: Convert To User Space Methods
+extension TrackedRectangle {
+    
 }

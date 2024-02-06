@@ -1,14 +1,8 @@
 import Foundation
 import CoreImage
 
-protocol DetectingProcessDelegate: AnyObject {
-    func notifyDetectingResult(_ delegate: DefaultDocumentDetector, rectangle: TrackedRectangle?, error: Error?)
-    func didFinishTracking(_ delegate: DefaultDocumentDetector)
-}
-
 protocol DocumentDetector: AnyObject {
-    var delegate: DetectingProcessDelegate? { get set }
-    func detect(on pixelBuffer: CVPixelBuffer)
+    func detect(in ciImage: CIImage) -> TrackedRectangle?
 }
 
 final class DefaultDocumentDetector: DocumentDetector {
@@ -20,17 +14,12 @@ final class DefaultDocumentDetector: DocumentDetector {
                                                     CIDetectorAspectRatio: NSNumber(1.75),
                                                    ])
     
-    // MARK: Dependencies
-    weak var delegate: DetectingProcessDelegate?
-    
     // MARK: Interface
-    func detect(on pixelBuffer: CVPixelBuffer) {
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+    func detect(in ciImage: CIImage) -> TrackedRectangle? {
         guard let rectangle = detector?.features(in: ciImage).first as? CIRectangleFeature else {
-            delegate?.notifyDetectingResult(self, rectangle: nil, error: DetectError.rectangleDetectionFailed)
-            return
+            return nil
         }
-        let trackedRectangle = TrackedRectangle(cgRect: rectangle.bounds)
-        delegate?.notifyDetectingResult(self, rectangle: trackedRectangle, error: nil)
+        let trackedRectangle = TrackedRectangle(rectangleFeature: rectangle)
+        return trackedRectangle
     }
 }

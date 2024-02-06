@@ -35,13 +35,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="103" width="393" height="680.66666666666663"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="632"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-1U-fxm">
-                                <rect key="frame" x="8" y="783.66666666666663" width="377" height="34.333333333333371"/>
+                                <rect key="frame" x="8" y="735" width="377" height="83"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcX-cs-Ltw">
-                                        <rect key="frame" x="0.0" y="0.0" width="83" height="34.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="83" height="83"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="BcX-cs-Ltw" secondAttribute="height" multiplier="1:1" id="ezv-Lt-T34"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="미리보기"/>
                                         <connections>
@@ -49,7 +52,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-uT-hXx">
-                                        <rect key="frame" x="171" y="0.0" width="49.666666666666657" height="34.333333333333336"/>
+                                        <rect key="frame" x="171" y="16.666666666666625" width="49.666666666666657" height="49.666666666666657"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="wPj-uT-hXx" secondAttribute="height" multiplier="1:1" id="Ktp-fc-eRD"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" image="camera.aperture" catalog="system"/>
                                         <connections>
@@ -57,7 +63,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2P-6t-uWO">
-                                        <rect key="frame" x="323.33333333333331" y="0.0" width="53.666666666666686" height="34.333333333333336"/>
+                                        <rect key="frame" x="323.33333333333331" y="14.666666666666625" width="53.666666666666686" height="53.666666666666657"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="n2P-6t-uWO" secondAttribute="height" multiplier="1:1" id="iSh-Gi-ew8"/>
+                                        </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="저장"/>
                                         <connections>
@@ -132,10 +141,10 @@
             </objects>
             <point key="canvasLocation" x="456" y="-333"/>
         </scene>
-        <!--Previewer View Controller-->
+        <!--Repoint View Controller-->
         <scene sceneID="BsK-Kb-WQm">
             <objects>
-                <viewController id="gUJ-gT-Xa7" customClass="PreviewerViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gUJ-gT-Xa7" customClass="RepointViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hzS-Ci-ucK">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
