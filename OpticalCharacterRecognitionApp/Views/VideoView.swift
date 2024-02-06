@@ -30,7 +30,6 @@ final class VideoView: UIView {
         highlightLayer?.removeFromSuperlayer()
 
         let scaledRectangle = convertRectangleCoordinatesSpace(rectangle, originImageRect: rect)
-        print(scaledRectangle)
 
         let layer = createShapeLayer(for: scaledRectangle)
         let path = createPath(for: scaledRectangle)
@@ -44,9 +43,8 @@ final class VideoView: UIView {
 // MARK: Draw Methods
 extension VideoView {
     private func convertRectangleCoordinatesSpace(_ rectangle: TrackedRectangle, originImageRect rect: CGRect) -> TrackedRectangle {
-        let scaleX = videoPreviewLayer.bounds.width / rect.width
-        let scaleY = videoPreviewLayer.bounds.height / rect.height
-        let scaledCornerPoints = rectangle.cornerPoints.map { $0.scaled(valueX: scaleX, valueY: scaleY) }
+        let scale = min(videoPreviewLayer.frame.size.width / rect.width, videoPreviewLayer.frame.size.height / rect.height)
+        let scaledCornerPoints = rectangle.cornerPoints.map { $0.scaled(valueX: scale, valueY: scale) }
         return TrackedRectangle(cornerPoints: scaledCornerPoints)
     }
     

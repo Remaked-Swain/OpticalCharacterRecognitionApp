@@ -34,25 +34,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="103" width="393" height="632"/>
-                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="zvr-1U-fxm">
-                                <rect key="frame" x="8" y="735" width="377" height="83"/>
+                                <rect key="frame" x="8" y="729" width="377" height="89"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcX-cs-Ltw">
-                                        <rect key="frame" x="0.0" y="0.0" width="83" height="83"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Tsz-BX-ZwL">
+                                        <rect key="frame" x="0.0" y="0.0" width="89" height="89"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="BcX-cs-Ltw" secondAttribute="height" multiplier="1:1" id="ezv-Lt-T34"/>
+                                            <constraint firstAttribute="width" secondItem="Tsz-BX-ZwL" secondAttribute="height" multiplier="1:1" id="dJW-kj-x6f"/>
                                         </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="미리보기"/>
-                                        <connections>
-                                            <action selector="touchUpPreviewerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kaP-r6-zdM"/>
-                                        </connections>
-                                    </button>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-uT-hXx">
-                                        <rect key="frame" x="171" y="16.666666666666625" width="49.666666666666657" height="49.666666666666657"/>
+                                        <rect key="frame" x="172.66666666666666" y="19.666666666666625" width="49.666666666666657" height="49.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="wPj-uT-hXx" secondAttribute="height" multiplier="1:1" id="Ktp-fc-eRD"/>
                                         </constraints>
@@ -63,7 +55,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2P-6t-uWO">
-                                        <rect key="frame" x="323.33333333333331" y="14.666666666666625" width="53.666666666666686" height="53.666666666666657"/>
+                                        <rect key="frame" x="323.33333333333331" y="17.666666666666625" width="53.666666666666686" height="53.666666666666657"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="n2P-6t-uWO" secondAttribute="height" multiplier="1:1" id="iSh-Gi-ew8"/>
                                         </constraints>
@@ -74,17 +66,23 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Tsz-BX-ZwL" firstAttribute="width" secondItem="wPj-uT-hXx" secondAttribute="width" multiplier="1.79195" id="RdU-sg-4eT"/>
+                                </constraints>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pat-9u-7ZN" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="103" width="393" height="626"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="EtR-Vs-474"/>
-                            <constraint firstItem="zvr-1U-fxm" firstAttribute="top" secondItem="Pat-9u-7ZN" secondAttribute="bottom" id="HiW-Od-H0f"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="GmM-TC-apS"/>
+                            <constraint firstItem="zvr-1U-fxm" firstAttribute="top" secondItem="Pat-9u-7ZN" secondAttribute="bottom" id="IMj-DA-5Ms"/>
                             <constraint firstItem="zvr-1U-fxm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="U7E-g4-pzy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zvr-1U-fxm" secondAttribute="trailing" constant="8" id="dWn-GB-Zrn"/>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="nu8-Vq-Ey1"/>
-                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sNE-6J-ryc"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="o6H-It-9lV"/>
+                            <constraint firstItem="Pat-9u-7ZN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wL7-7d-Vof"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zvr-1U-fxm" secondAttribute="bottom" id="xOX-yA-Wq7"/>
                         </constraints>
                     </view>
@@ -117,6 +115,7 @@
                     <connections>
                         <outlet property="cancelButton" destination="GkD-86-Qkv" id="stJ-ea-LWw"/>
                         <outlet property="captureModeButton" destination="D44-cR-r68" id="enR-f9-AtW"/>
+                        <outlet property="preImageView" destination="Tsz-BX-ZwL" id="ySL-NY-35c"/>
                         <outlet property="saveCaptureButton" destination="n2P-6t-uWO" id="UHP-Wy-h4q"/>
                         <outlet property="takeCaptureButton" destination="wPj-uT-hXx" id="THE-tQ-fJo"/>
                         <outlet property="videoView" destination="Pat-9u-7ZN" id="bnB-ta-Y2o"/>

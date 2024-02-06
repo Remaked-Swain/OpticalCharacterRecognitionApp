@@ -12,7 +12,8 @@ final class ScannerViewController: UIViewController {
     @IBOutlet private weak var videoView: VideoView!
     @IBOutlet private weak var takeCaptureButton: UIButton!
     @IBOutlet private weak var saveCaptureButton: UIButton!
-
+    @IBOutlet private weak var preImageView: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -53,9 +54,6 @@ final class ScannerViewController: UIViewController {
     @IBAction private func touchUpSaveCaptureButton(_ sender: UIButton) {
         
     }
-    @IBAction func touchUpPreviewerButton(_ sender: UIButton) {
-        
-    }
 }
 
 // MARK: CaptureProcessorDelegate Confirmation
@@ -71,7 +69,10 @@ extension ScannerViewController: CaptureProcessorDelegate {
     }
     
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput ciImage: CIImage?, withError error: Error?) {
+        guard let ciImage = ciImage else { return }
+        let uiImage = UIImage(ciImage: ciImage)
         
+        preImageView.image = uiImage
     }
 }
 
