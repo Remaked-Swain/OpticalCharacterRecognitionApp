@@ -32,6 +32,7 @@
 		04AF4D472B73622900F167B1 /* MotionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF4D462B73622900F167B1 /* MotionDetector.swift */; };
 		04AF4D492B73668C00F167B1 /* Extension+ConvenienceInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF4D482B73668C00F167B1 /* Extension+ConvenienceInit.swift */; };
 		04AF4D4B2B736A9A00F167B1 /* CaptureModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AF4D4A2B736A9A00F167B1 /* CaptureModeButton.swift */; };
+		04AF4D4D2B736ECE00F167B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04AF4D4C2B736ECE00F167B1 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		04AF4D462B73622900F167B1 /* MotionDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetector.swift; sourceTree = "<group>"; };
 		04AF4D482B73668C00F167B1 /* Extension+ConvenienceInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+ConvenienceInit.swift"; sourceTree = "<group>"; };
 		04AF4D4A2B736A9A00F167B1 /* CaptureModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModeButton.swift; sourceTree = "<group>"; };
+		04AF4D4C2B736ECE00F167B1 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 		0476B6B92B7098CF005658B7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				04AF4D4C2B736ECE00F167B1 /* Main.storyboard */,
 				04AC228C2B677DAB009B5EA9 /* LaunchScreen.storyboard */,
 				04AC22EA2B6B82C5009B5EA9 /* VideoView.swift */,
 				04AF4D4A2B736A9A00F167B1 /* CaptureModeButton.swift */,
@@ -299,6 +302,7 @@
 				04AC228E2B677DAB009B5EA9 /* LaunchScreen.storyboard in Resources */,
 				04AC228B2B677DAB009B5EA9 /* Assets.xcassets in Resources */,
 				04AC22C62B68BB56009B5EA9 /* README.md in Resources */,
+				04AF4D4D2B736ECE00F167B1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +504,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpticalCharacterRecognitionApp/Resources/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "문서를 인식하고 촬영하기 위해서 카메라 사용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSMainNibFile = Main;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -532,6 +537,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OpticalCharacterRecognitionApp/Resources/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "문서를 인식하고 촬영하기 위해서 카메라 사용 권한이 필요합니다.";
+				INFOPLIST_KEY_NSMainNibFile = Main;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

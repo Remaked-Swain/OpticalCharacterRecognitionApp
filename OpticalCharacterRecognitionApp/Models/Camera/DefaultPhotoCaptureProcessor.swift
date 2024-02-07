@@ -28,7 +28,13 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     // MARK: Interface
     func setUpCaptureProcessor() throws {
         try requestPermission()
-        try setUpCaptureSession()
+        
+        session.beginConfiguration()
+        setUpSessionPreset()
+        let videoDevice = try selectCaptureDevice(in: .back)
+        try addCaptureDeviceInput(device: videoDevice)
+        try addCaptureDeviceOutput()
+        session.commitConfiguration()
     }
     
     func capture() {
@@ -60,31 +66,22 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
 // MARK: Private Methods
 extension DefaultPhotoCaptureProcessor {
     private func requestPermission() throws {
-        var permitted: Bool = false
+        var isPermitted: Bool = false
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         switch status {
         case .authorized:
-            permitted = true
+            isPermitted = true
         case .notDetermined, .restricted:
             AVCaptureDevice.requestAccess(for: .video) { granted in
-                permitted = granted
+                isPermitted = granted
             }
         default:
             throw PhotoCaptureProcessorError.notEnoughPermission
         }
         
-        guard permitted else {
+        guard isPermitted else {
             throw PhotoCaptureProcessorError.notEnoughPermission
         }
-    }
-    
-    private func setUpCaptureSession() throws {
-        session.beginConfiguration()
-        setUpSessionPreset()
-        
-        let videoDevice = try selectCaptureDevice(in: .back)
-        addCaptureDeviceInput(device: videoDevice)
-        addCaptureDeviceOutput()
     }
     
     private func setUpSessionPreset() {
@@ -117,21 +114,23 @@ extension DefaultPhotoCaptureProcessor {
         return device
     }
     
-    private func addCaptureDeviceInput(device: AVCaptureDevice) {
-        guard let cameraInput = try? AVCaptureDeviceInput(device: device),
-              session.canAddInput(cameraInput)
-        else { return }
-        session.addInput(cameraInput)
+    private func addCaptureDeviceInput(device: AVCaptureDevice) throws {
+        let input = try AVCaptureDeviceInput(device: device)
+        guard session.canAddInput(input) else {
+            throw PhotoCaptureProcessorError.canNotAddInput
+        }
+        session.addInput(input)
     }
     
-    private func addCaptureDeviceOutput() {
+    private func addCaptureDeviceOutput() throws {
         guard session.canAddOutput(photoOutput),
               session.canAddOutput(videoOutput)
-        else { return }
+        else {
+            throw PhotoCaptureProcessorError.canNotAddOutput
+        }
         
         session.addOutput(photoOutput)
         session.addOutput(videoOutput)
-        session.commitConfiguration()
     }
 }
 
@@ -140,9 +139,18 @@ extension DefaultPhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDele
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         
-        if let connection = output.connection(with: .video) {
-            connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let orientation = windowScene.interfaceOrientation
+                output.connection(with: .video)?.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue) ?? .portrait
+            }
         }
+
+//        DispatchQueue.main.async {
+//            if let connection = output.connection(with: .video) {
+//                connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
+//            }
+//        }
         
         delegate?.captureOutput(self, didOutput: pixelBuffer)
     }

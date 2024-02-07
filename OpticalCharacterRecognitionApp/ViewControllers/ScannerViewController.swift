@@ -3,6 +3,7 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     // MARK: Dependencies
+    private let motionDetector: MotionDetectable = MotionDetector()
     private let photoCaptureProcessor: PhotoCaptureProcessor = DefaultPhotoCaptureProcessor()
     private let detector: DocumentDetector = DefaultDocumentDetector()
     
