@@ -10,14 +10,13 @@ final class DefaultDocumentDetector: DocumentDetector {
     private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
                                                    context: nil)
     private let options: [String: Any] = [
-        CIDetectorAccuracy: CIDetectorAccuracyHigh,
-        CIDetectorImageOrientation: 6
+        CIDetectorAccuracy: CIDetectorAccuracyHigh
     ]
     
     // MARK: Interface
     func detect(in ciImage: CIImage) -> TrackedRectangle? {
         guard let rectangles = detector?.features(in: ciImage, options: options) as? [CIRectangleFeature],
-              let rectangle = rectangles.sorted(by: { $0.area > $1.area }).first
+              let rectangle = rectangles.first
         else {
             return nil
         }
