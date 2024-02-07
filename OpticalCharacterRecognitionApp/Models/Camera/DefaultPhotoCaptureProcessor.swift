@@ -8,6 +8,7 @@ protocol CaptureProcessorDelegate: AnyObject {
 }
 
 protocol PhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate & AVCapturePhotoCaptureDelegate {
+    var session: AVCaptureSession { get }
     var delegate: CaptureProcessorDelegate? { get set }
     func setUpCaptureProcessor() throws
     func capture()
@@ -17,7 +18,7 @@ protocol PhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate & A
 
 final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     // MARK: Properties
-    private let session: AVCaptureSession = AVCaptureSession()
+    let session: AVCaptureSession = AVCaptureSession()
     private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
@@ -35,6 +36,10 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
         try addCaptureDeviceInput(device: videoDevice)
         try addCaptureDeviceOutput()
         session.commitConfiguration()
+        
+        if let connection = videoOutput.connection(with: .video) {
+            connection.videoOrientation = .portrait
+        }
     }
     
     func capture() {
@@ -42,7 +47,7 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
         settings.photoQualityPrioritization = .balanced
         
         if let connection = photoOutput.connection(with: .video) {
-            connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
+            connection.videoOrientation = .portrait
         }
         
         photoOutput.capturePhoto(with: settings, delegate: self)
@@ -138,20 +143,6 @@ extension DefaultPhotoCaptureProcessor {
 extension DefaultPhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        
-        DispatchQueue.main.async {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                let orientation = windowScene.interfaceOrientation
-                output.connection(with: .video)?.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue) ?? .portrait
-            }
-        }
-
-//        DispatchQueue.main.async {
-//            if let connection = output.connection(with: .video) {
-//                connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
-//            }
-//        }
-        
         delegate?.captureOutput(self, didOutput: pixelBuffer)
     }
     
