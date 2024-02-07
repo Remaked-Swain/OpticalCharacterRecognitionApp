@@ -49,35 +49,14 @@ extension VideoView {
         let scaleX = videoPreviewLayer.bounds.width / imageWidth
         let scaleY = videoPreviewLayer.bounds.height / imageHeight
         
-        // 사각형을 90도 회전하기 위한 회전 변환 행렬을 생성합니다.
-//        let rotationTransform = CGAffineTransform(rotationAngle: -CGFloat.pi / 2.0)
-        
-        // 변환된 좌표를 계산합니다. 회전 변환 후 좌표를 정확히 계산하기 위해 회전 변환 행렬을 먼저 적용합니다.
-//        let scaledTopLeft = rectangle.topLeft.applying(rotationTransform)
-//        let scaledTopRight = rectangle.topRight.applying(rotationTransform)
-//        let scaledBottomLeft = rectangle.bottomLeft.applying(rotationTransform)
-//        let scaledBottomRight = rectangle.bottomRight.applying(rotationTransform)
-        
-        let scaledTopLeft = rectangle.topLeft
-        let scaledTopRight = rectangle.topRight
-        let scaledBottomLeft = rectangle.bottomLeft
-        let scaledBottomRight = rectangle.bottomRight
-        
-        // 이후에 스케일 변환을 적용합니다.
-        let rotatedScaledTopLeft = CGPoint(x: scaledTopLeft.y * scaleX, y: (imageWidth - scaledTopLeft.x) * scaleY)
-        let rotatedScaledTopRight = CGPoint(x: scaledTopRight.y * scaleX, y: (imageWidth - scaledTopRight.x) * scaleY)
-        let rotatedScaledBottomLeft = CGPoint(x: scaledBottomLeft.y * scaleX, y: (imageWidth - scaledBottomLeft.x) * scaleY)
-        let rotatedScaledBottomRight = CGPoint(x: scaledBottomRight.y * scaleX, y: (imageWidth - scaledBottomRight.x) * scaleY)
-        
-        // 변환된 좌표로 새로운 TrackedRectangle을 생성하여 반환합니다.
-        return TrackedRectangle(topLeft: rotatedScaledTopLeft, topRight: rotatedScaledTopRight, bottomLeft: rotatedScaledBottomLeft, bottomRight: rotatedScaledBottomRight)
+        let cornerPoints = rectangle.cornerPoints.map { $0.flipPositionY(scaleX, scaleY, originImageHeight: videoPreviewLayer.bounds.height) }
+        return TrackedRectangle(cornerPoints: cornerPoints)
     }
     
     private func createShapeLayer(for rectangle: TrackedRectangle) -> CAShapeLayer {
-        let strokeColor = Theme.paintColor(color: .secondary, alpha: 1).cgColor
-        let fillColor = Theme.paintColor(color: .primary, alpha: 0.5).cgColor
+        let strokeColor = Theme.paintColor(.secondary, alpha: 1)
+        let fillColor = Theme.paintColor(.primary, alpha: 0.5)
         let layer = CAShapeLayer()
-        layer.frame = rectangle.boundingBox
         layer.strokeColor = strokeColor
         layer.fillColor = fillColor
         layer.lineWidth = 4

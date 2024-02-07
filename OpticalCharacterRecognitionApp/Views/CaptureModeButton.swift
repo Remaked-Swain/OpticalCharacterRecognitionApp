@@ -23,6 +23,7 @@ final class CaptureModeButton: UIButton, CaptureModeButtonProtocol {
     
     init(currentMode: CaptureMode = .automatic) {
         self.currentMode = currentMode
+        super.init(frame: .zero)
     }
     
     required init?(coder: NSCoder) {

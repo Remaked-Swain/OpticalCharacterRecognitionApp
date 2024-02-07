@@ -17,6 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rrm-w4-WqQ" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="103" width="393" height="634.66666666666663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="64" translatesAutoresizingMaskIntoConstraints="NO" id="VHd-CP-u2C">
                                 <rect key="frame" x="12" y="737.66666666666663" width="369" height="80.333333333333371"/>
                                 <subviews>
@@ -33,6 +37,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                        <connections>
+                                            <action selector="touchUpTakeCaptureButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="GTC-hH-Oq3"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVw-Z8-W8k">
                                         <rect key="frame" x="288.66666666666669" y="0.0" width="80.333333333333314" height="80.333333333333329"/>
@@ -41,6 +48,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="touchUpSaveCaptureButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="692-Vl-gRe"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -56,10 +66,6 @@
                                     <constraint firstItem="8aP-0T-MnT" firstAttribute="top" secondItem="VHd-CP-u2C" secondAttribute="top" id="zNz-Ez-hYC"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rrm-w4-WqQ" customClass="VideoView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="103" width="393" height="634.66666666666663"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -75,19 +81,25 @@
                     </view>
                     <navigationItem key="navigationItem" id="SoR-E2-a9F">
                         <barButtonItem key="leftBarButtonItem" style="plain" id="83R-Ic-RZ3">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Jxs-YS-Mxj">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Jxs-YS-Mxj">
                                 <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="취소"/>
+                                <connections>
+                                    <action selector="touchUpCancelButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="M0R-tv-sgu"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="4J2-f9-oxm">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2v2-CX-k3c">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2v2-CX-k3c">
                                 <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="touchUpCaptureModeButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9M7-X0-76h"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
