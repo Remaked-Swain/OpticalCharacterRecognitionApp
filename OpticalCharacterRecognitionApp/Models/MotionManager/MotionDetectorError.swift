@@ -1,5 +1,5 @@
 //
-//  Extension+ConvenienceInit.swift
+//  MotionDetectorError.swift
 //  OpticalCharacterRecognitionApp
 //
 //  Created by Swain Yun on 2/7/24.
