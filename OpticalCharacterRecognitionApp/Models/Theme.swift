@@ -7,12 +7,12 @@ struct Theme {
     
     private init() {}
     
-    static func paintColor(_ type: Color, alpha: CGFloat = 1) -> UIColor {
+    static func paintColor(_ type: Color, alpha: CGFloat = 1) -> CGColor {
         switch type {
         case .primary:
-            UIColor(red: 66/225, green: 171/225, blue: 225/225, alpha: alpha)
+            CGColor(red: 66/225, green: 171/225, blue: 225/225, alpha: alpha)
         case .secondary:
-            UIColor(red: 79/225, green: 84/225, blue: 125/225, alpha: alpha)
+            CGColor(red: 79/225, green: 84/225, blue: 125/225, alpha: alpha)
         }
     }
 }

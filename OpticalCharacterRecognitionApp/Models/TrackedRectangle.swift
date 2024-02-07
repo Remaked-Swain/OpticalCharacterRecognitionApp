@@ -24,24 +24,6 @@ struct TrackedRectangle {
         return [topLeft, topRight, bottomRight, bottomLeft]
     }
     
-    var boundingBox: CGRect {
-        let minX = min(topLeft.x, bottomLeft.x)
-        let minY = min(topLeft.y, topRight.y)
-        let maxX = max(bottomRight.x, topRight.x)
-        let maxY = max(bottomLeft.y, bottomRight.y)
-        return CGRect(x: minX, y: minY, width: maxX-minX, height: maxY-minY)
-    }
-    
-    var area: CGFloat {
-        let minX = min(topLeft.x, bottomLeft.x)
-        let minY = min(bottomLeft.y, bottomRight.y)
-        let maxX = max(bottomRight.x, topRight.x)
-        let maxY = max(topLeft.y, topRight.y)
-        let width = maxX - minX
-        let height = maxY - minY
-        return width * height
-    }
-    
     init(rectangleFeature: CIRectangleFeature) {
         self.topLeft = rectangleFeature.topLeft
         self.topRight = rectangleFeature.topRight
@@ -62,9 +44,4 @@ struct TrackedRectangle {
         self.bottomRight = cornerPoints[2]
         self.bottomLeft = cornerPoints[3]
     }
-}
-
-// MARK: Convert To User Space Methods
-extension TrackedRectangle {
-    
 }
