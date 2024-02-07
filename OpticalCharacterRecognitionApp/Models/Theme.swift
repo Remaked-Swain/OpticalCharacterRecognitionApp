@@ -7,8 +7,8 @@ struct Theme {
     
     private init() {}
     
-    static func paintColor(color: Color, alpha: CGFloat = 1) -> UIColor {
-        switch color {
+    static func paintColor(_ type: Color, alpha: CGFloat = 1) -> UIColor {
+        switch type {
         case .primary:
             UIColor(red: 66/225, green: 171/225, blue: 225/225, alpha: alpha)
         case .secondary:

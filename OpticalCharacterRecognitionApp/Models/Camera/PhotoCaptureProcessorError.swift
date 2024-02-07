@@ -1,6 +1,6 @@
 import Foundation
 
-enum CameraError: Error, CustomDebugStringConvertible {
+enum PhotoCaptureProcessorError: Error, CustomDebugStringConvertible {
     case notEnoughPermission
     case deviceNotFound
     

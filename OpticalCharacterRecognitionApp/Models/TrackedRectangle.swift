@@ -59,8 +59,8 @@ struct TrackedRectangle {
     init(cornerPoints: [CGPoint]) {
         self.topLeft = cornerPoints[0]
         self.topRight = cornerPoints[1]
-        self.bottomLeft = cornerPoints[2]
-        self.bottomRight = cornerPoints[3]
+        self.bottomRight = cornerPoints[2]
+        self.bottomLeft = cornerPoints[3]
     }
 }
 

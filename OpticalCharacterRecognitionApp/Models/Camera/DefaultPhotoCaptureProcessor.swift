@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 import CoreImage
 import AVFoundation
 
@@ -9,9 +9,7 @@ protocol CaptureProcessorDelegate: AnyObject {
 
 protocol PhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate & AVCapturePhotoCaptureDelegate {
     var delegate: CaptureProcessorDelegate? { get set }
-    var session: AVCaptureSession { get }
-    func checkPermission(completionHandler: @escaping (Bool) -> Void) throws
-    func setUpCaptureSession()
+    func setUpCaptureProcessor() throws
     func capture()
     func start()
     func stop()
@@ -19,57 +17,28 @@ protocol PhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate & A
 
 final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     // MARK: Properties
-    let session: AVCaptureSession = AVCaptureSession()
+    private let session: AVCaptureSession = AVCaptureSession()
     private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
-    private let rendererContext = CIContext()
-    private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
-                                                   context: nil,
-                                                   options: [
-                                                    CIDetectorAccuracy: CIDetectorAccuracyHigh,
-                                                    CIDetectorImageOrientation: 6
-                                                   ])
     
     // MARK: Dependencies
     weak var delegate: CaptureProcessorDelegate?
     
     // MARK: Interface
-    func checkPermission(completionHandler: @escaping (Bool) -> Void) throws {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        
-        switch status {
-        case .authorized:
-            completionHandler(true)
-        case .notDetermined, .restricted, .denied:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                completionHandler(granted)
-            }
-        @unknown default:
-            throw CameraError.notEnoughPermission
-        }
-    }
-    
-    func setUpCaptureSession() {
-        guard session.inputs.isEmpty else { return }
-        session.beginConfiguration()
-        
-        do {
-            let videoDevice = try selectCaptureDevice(in: .back)
-            addCaptureDeviceInput(device: videoDevice)
-            addCaptureDeviceOutput()
-            start()
-        } catch {
-            guard let error = error as? CameraError else {
-                return print(error)
-            }
-            print(error.debugDescription)
-        }
+    func setUpCaptureProcessor() throws {
+        try requestPermission()
+        try setUpCaptureSession()
     }
     
     func capture() {
         let settings = AVCapturePhotoSettings()
         settings.photoQualityPrioritization = .balanced
+        
+        if let connection = photoOutput.connection(with: .video) {
+            connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
+        }
+        
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
     
@@ -90,9 +59,49 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
 
 // MARK: Private Methods
 extension DefaultPhotoCaptureProcessor {
+    private func requestPermission() throws {
+        var permitted: Bool = false
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            permitted = true
+        case .notDetermined, .restricted:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                permitted = granted
+            }
+        default:
+            throw PhotoCaptureProcessorError.notEnoughPermission
+        }
+        
+        guard permitted else {
+            throw PhotoCaptureProcessorError.notEnoughPermission
+        }
+    }
+    
+    private func setUpCaptureSession() throws {
+        session.beginConfiguration()
+        setUpSessionPreset()
+        
+        let videoDevice = try selectCaptureDevice(in: .back)
+        addCaptureDeviceInput(device: videoDevice)
+        addCaptureDeviceOutput()
+    }
+    
+    private func setUpSessionPreset() {
+        if session.canSetSessionPreset(.hd1280x720) {
+            session.sessionPreset = .hd1280x720
+        }
+        if session.canSetSessionPreset(.hd1920x1080) {
+            session.sessionPreset = .hd1920x1080
+        }
+        if session.canSetSessionPreset(.hd4K3840x2160) {
+            session.sessionPreset = .hd4K3840x2160
+        }
+    }
+    
     private func selectCaptureDevice(in position: AVCaptureDevice.Position) throws -> AVCaptureDevice {
         let deviceTypes: [AVCaptureDevice.DeviceType] = [
-            .builtInDualCamera, .builtInTripleCamera, .builtInTelephotoCamera, .builtInWideAngleCamera
+            .builtInDualCamera, .builtInTripleCamera, .builtInWideAngleCamera,
         ]
         
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: deviceTypes,
@@ -102,7 +111,7 @@ extension DefaultPhotoCaptureProcessor {
         guard discoverySession.devices.isEmpty == false,
               let device = discoverySession.devices.first(where: { $0.position == position })
         else {
-            throw CameraError.deviceNotFound
+            throw PhotoCaptureProcessorError.deviceNotFound
         }
         
         return device
@@ -120,16 +129,6 @@ extension DefaultPhotoCaptureProcessor {
               session.canAddOutput(videoOutput)
         else { return }
         
-        if session.canSetSessionPreset(.hd1280x720) {
-            session.sessionPreset = .hd1280x720
-        }
-        if session.canSetSessionPreset(.hd1920x1080) {
-            session.sessionPreset = .hd1920x1080
-        }
-        if session.canSetSessionPreset(.hd4K3840x2160) {
-            session.sessionPreset = .hd4K3840x2160
-        }
-        
         session.addOutput(photoOutput)
         session.addOutput(videoOutput)
         session.commitConfiguration()
@@ -140,15 +139,21 @@ extension DefaultPhotoCaptureProcessor {
 extension DefaultPhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        if let connection = output.connection(with: .video) {
+            connection.videoOrientation = AVCaptureVideoOrientation(deviceOrientation: UIDevice.current.orientation) ?? .portrait
+        }
+        
         delegate?.captureOutput(self, didOutput: pixelBuffer)
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let pixelBuffer = photo.pixelBuffer else {
+        guard let data = photo.fileDataRepresentation(),
+              let ciImage = CIImage(data: data)
+        else {
             delegate?.captureOutput(self, didOutput: nil, withError: error)
             return
         }
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         delegate?.captureOutput(self, didOutput: ciImage, withError: nil)
     }
 }

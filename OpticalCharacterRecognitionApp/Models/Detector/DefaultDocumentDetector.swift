@@ -8,15 +8,17 @@ protocol DocumentDetector: AnyObject {
 final class DefaultDocumentDetector: DocumentDetector {
     // MARK: Properties
     private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
-                                                   context: nil,
-                                                   options: [
-                                                    CIDetectorAccuracy: CIDetectorAccuracyHigh,
-                                                    CIDetectorAspectRatio: NSNumber(1.75),
-                                                   ])
+                                                   context: nil)
+    private let options: [String: Any] = [
+        CIDetectorAccuracy: CIDetectorAccuracyHigh,
+        CIDetectorImageOrientation: 6
+    ]
     
     // MARK: Interface
     func detect(in ciImage: CIImage) -> TrackedRectangle? {
-        guard let rectangle = detector?.features(in: ciImage).first as? CIRectangleFeature else {
+        guard let rectangles = detector?.features(in: ciImage, options: options) as? [CIRectangleFeature],
+              let rectangle = rectangles.sorted(by: { $0.area > $1.area }).first
+        else {
             return nil
         }
         let trackedRectangle = TrackedRectangle(rectangleFeature: rectangle)
