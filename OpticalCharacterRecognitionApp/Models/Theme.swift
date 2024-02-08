@@ -2,17 +2,20 @@ import UIKit
 
 struct Theme {
     enum Color {
-        case primary, secondary
+        case main, sub
+        
+        var name: String {
+            switch self {
+            case .main: "MainColor"
+            case .sub: "SubColor"
+            }
+        }
     }
     
     private init() {}
     
-    static func paintColor(_ type: Color, alpha: CGFloat = 1) -> CGColor {
-        switch type {
-        case .primary:
-            CGColor(red: 66/225, green: 171/225, blue: 225/225, alpha: alpha)
-        case .secondary:
-            CGColor(red: 79/225, green: 84/225, blue: 125/225, alpha: alpha)
-        }
+    static func paintCGColor(_ type: Color, alpha: CGFloat = 1) -> CGColor? {
+        let uiColor = UIColor(named: type.name)
+        return uiColor?.withAlphaComponent(alpha).cgColor
     }
 }

@@ -1,6 +1,6 @@
 import UIKit
 
-final class PreviewerViewController: UIViewController {
+final class EditerViewController: UIViewController {
     
     
     override func viewDidLoad() {
