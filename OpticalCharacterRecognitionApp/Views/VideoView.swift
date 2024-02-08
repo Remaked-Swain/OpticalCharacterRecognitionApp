@@ -38,6 +38,10 @@ final class VideoView: UIView {
         videoPreviewLayer.addSublayer(layer)
         highlightLayer = layer
     }
+    
+    func removeRectangleOverlay() {
+        highlightLayer?.removeFromSuperlayer()
+    }
 }
 
 // MARK: Draw Methods
@@ -54,8 +58,8 @@ extension VideoView {
     }
     
     private func createShapeLayer(for rectangle: TrackedRectangle) -> CAShapeLayer {
-        let strokeColor = Theme.paintColor(.secondary, alpha: 1)
-        let fillColor = Theme.paintColor(.primary, alpha: 0.5)
+        let strokeColor = Theme.paintCGColor(.sub, alpha: 1)
+        let fillColor = Theme.paintCGColor(.main, alpha: 0.5)
         let layer = CAShapeLayer()
         layer.strokeColor = strokeColor
         layer.fillColor = fillColor
