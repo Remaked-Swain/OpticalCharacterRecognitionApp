@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04A6E7C42B76620B007749BF /* UIViewControllerIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6E7C32B76620B007749BF /* UIViewControllerIdentifiable.swift */; };
+		04A6E7C72B766254007749BF /* ReusingCellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6E7C62B766254007749BF /* ReusingCellIdentifiable.swift */; };
 		04AC22822B677DAA009B5EA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22812B677DAA009B5EA9 /* AppDelegate.swift */; };
 		04AC22842B677DAA009B5EA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22832B677DAA009B5EA9 /* SceneDelegate.swift */; };
 		04AC22862B677DAA009B5EA9 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AC22852B677DAA009B5EA9 /* ScannerViewController.swift */; };
@@ -33,7 +35,6 @@
 		04C2BABD2B74ECDD001F9086 /* DocumentPagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C2BABC2B74ECDD001F9086 /* DocumentPagesViewController.swift */; };
 		04C2BAC02B74F259001F9086 /* DocumentPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C2BABF2B74F259001F9086 /* DocumentPersistentContainer.swift */; };
 		04C2BAC42B762A57001F9086 /* DocumentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C2BAC32B762A57001F9086 /* DocumentCell.swift */; };
-		04C2BAC62B763BFD001F9086 /* Extension+UICollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C2BAC52B763BFD001F9086 /* Extension+UICollectionViewFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04A6E7C32B76620B007749BF /* UIViewControllerIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerIdentifiable.swift; sourceTree = "<group>"; };
+		04A6E7C62B766254007749BF /* ReusingCellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusingCellIdentifiable.swift; sourceTree = "<group>"; };
 		04AC227E2B677DAA009B5EA9 /* OpticalCharacterRecognitionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpticalCharacterRecognitionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04AC22812B677DAA009B5EA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04AC22832B677DAA009B5EA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +79,6 @@
 		04C2BABC2B74ECDD001F9086 /* DocumentPagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPagesViewController.swift; sourceTree = "<group>"; };
 		04C2BABF2B74F259001F9086 /* DocumentPersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPersistentContainer.swift; sourceTree = "<group>"; };
 		04C2BAC32B762A57001F9086 /* DocumentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCell.swift; sourceTree = "<group>"; };
-		04C2BAC52B763BFD001F9086 /* Extension+UICollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionViewFlowLayout.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				04AF4D4C2B736ECE00F167B1 /* Main.storyboard */,
 				04AC228C2B677DAB009B5EA9 /* LaunchScreen.storyboard */,
+				04A6E7C52B766240007749BF /* Protocol */,
 				04AC22EA2B6B82C5009B5EA9 /* VideoView.swift */,
 				04AF4D4A2B736A9A00F167B1 /* CaptureModeButton.swift */,
 				04C2BAC32B762A57001F9086 /* DocumentCell.swift */,
@@ -126,11 +129,28 @@
 		0476B6BA2B7098D4005658B7 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				04A6E7C22B7661FA007749BF /* Protocol */,
 				04AC22852B677DAA009B5EA9 /* ScannerViewController.swift */,
 				04C2BABC2B74ECDD001F9086 /* DocumentPagesViewController.swift */,
 				04AC22EE2B6CC4B2009B5EA9 /* EditerViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		04A6E7C22B7661FA007749BF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				04A6E7C32B76620B007749BF /* UIViewControllerIdentifiable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		04A6E7C52B766240007749BF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				04A6E7C62B766254007749BF /* ReusingCellIdentifiable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		04AC22752B677DAA009B5EA9 = {
@@ -198,7 +218,6 @@
 				04AF4D3B2B725D6800F167B1 /* Extension+UIImage.swift */,
 				04C2BAA52B7391AE001F9086 /* Extension+CGPoint.swift */,
 				04AF4D3F2B73513100F167B1 /* Extension+AVCaptureVideoOrientation.swift */,
-				04C2BAC52B763BFD001F9086 /* Extension+UICollectionViewFlowLayout.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,11 +358,12 @@
 				04AF4D3C2B725D6800F167B1 /* Extension+UIImage.swift in Sources */,
 				04AF4D4B2B736A9A00F167B1 /* CaptureModeButton.swift in Sources */,
 				04AC22E72B6B3A80009B5EA9 /* PhotoCaptureProcessorError.swift in Sources */,
+				04A6E7C72B766254007749BF /* ReusingCellIdentifiable.swift in Sources */,
 				04AC22EB2B6B82C5009B5EA9 /* VideoView.swift in Sources */,
 				04AC22E42B6A63C1009B5EA9 /* FilterType.swift in Sources */,
-				04C2BAC62B763BFD001F9086 /* Extension+UICollectionViewFlowLayout.swift in Sources */,
 				04AF4D402B73513100F167B1 /* Extension+AVCaptureVideoOrientation.swift in Sources */,
 				04C2BAC42B762A57001F9086 /* DocumentCell.swift in Sources */,
+				04A6E7C42B76620B007749BF /* UIViewControllerIdentifiable.swift in Sources */,
 				04C2BAA62B7391AE001F9086 /* Extension+CGPoint.swift in Sources */,
 				04AF4D3A2B7217E400F167B1 /* DefaultDocumentDetector.swift in Sources */,
 				04AC22DF2B6A372E009B5EA9 /* DetectError.swift in Sources */,

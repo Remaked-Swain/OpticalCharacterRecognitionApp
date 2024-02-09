@@ -1,8 +1,8 @@
 import UIKit
 
 final class CaptureModeButton: UIButton {
-    enum CaptureMode: Int {
-        case automatic = 0
+    enum CaptureMode {
+        case automatic
         case manual
         
         var title: String {
@@ -15,7 +15,7 @@ final class CaptureModeButton: UIButton {
         }
     }
     
-    var currentMode: CaptureMode = .automatic {
+    private var currentMode: CaptureMode = .automatic {
         didSet {
             setTitle(currentMode)
         }
@@ -30,6 +30,6 @@ final class CaptureModeButton: UIButton {
     }
     
     private func setTitle(_ mode: CaptureMode) {
-        self.setTitle(mode.title, for: self.state)
+        self.setTitle(mode.title, for: .normal)
     }
 }
