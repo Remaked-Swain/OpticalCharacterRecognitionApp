@@ -5,20 +5,33 @@ final class ScannerViewController: UIViewController {
     // MARK: Dependencies
     private let photoCaptureProcessor: PhotoCaptureProcessor = DefaultPhotoCaptureProcessor()
     private let detector: DocumentDetector = DefaultDocumentDetector()
+    private let documentPersistentContainer: DocumentPersistentContainerProtocol = DocumentPersistentContainer()
+    private let filter: FilterProtocol = Filter()
     
     // MARK: IBOutlets
     @IBOutlet private weak var cancelButton: UIButton!
-    @IBOutlet private weak var captureModeButton: UIButton!
+    @IBOutlet private weak var captureModeButton: CaptureModeButton!
     @IBOutlet private weak var videoView: VideoView!
+    @IBOutlet private weak var documentPreview: UIImageView!
     @IBOutlet private weak var takeCaptureButton: UIButton!
     @IBOutlet private weak var saveCaptureButton: UIButton!
-    @IBOutlet private weak var preImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         photoCaptureProcessor.delegate = self
         configurePhotoCaptureProcessor()
+        captureModeButton.configureCaptureButton()
+        configureDocumentPreview()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        videoView.session = photoCaptureProcessor.session
+        photoCaptureProcessor.start()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        photoCaptureProcessor.stop()
     }
     
     override func viewDidLayoutSubviews() {
@@ -36,7 +49,7 @@ final class ScannerViewController: UIViewController {
     }
     
     @IBAction private func touchUpCaptureModeButton(_ sender: UIButton) {
-        
+        captureModeButton.toggleCaptureMode()
     }
     
     @IBAction private func touchUpTakeCaptureButton(_ sender: UIButton) {
@@ -53,8 +66,6 @@ extension ScannerViewController {
     private func configurePhotoCaptureProcessor() {
         do {
             try photoCaptureProcessor.setUpCaptureProcessor()
-            videoView.session = photoCaptureProcessor.session
-            photoCaptureProcessor.start()
         } catch {
             guard let error = error as? PhotoCaptureProcessorError else {
                 print(error)
@@ -64,11 +75,11 @@ extension ScannerViewController {
         }
     }
     
-    private func configurePreImageView() {
-        preImageView.isUserInteractionEnabled = true
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pushEditerViewController))
-        
-        
+    private func configureDocumentPreview() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pushDocumentPagesViewController))
+        documentPreview.isUserInteractionEnabled = true
+        documentPreview.addGestureRecognizer(tapGestureRecognizer)
+        documentPreview.contentMode = .scaleAspectFill
     }
 }
 
@@ -78,10 +89,10 @@ extension ScannerViewController: CaptureProcessorDelegate {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         
         do {
-            let trackedRectangle = try detector.detect(in: ciImage)
+            let detectedRectangle = try detector.detect(in: ciImage)
             
             DispatchQueue.main.async { [weak self] in
-                self?.videoView.updateRectangleOverlay(trackedRectangle, originImageRect: ciImage.extent)
+                self?.videoView.updateRectangleOverlay(detectedRectangle, originImageRect: ciImage.extent)
             }
         } catch {
             DispatchQueue.main.async { [weak self] in
@@ -94,22 +105,38 @@ extension ScannerViewController: CaptureProcessorDelegate {
         guard let ciImage = ciImage else { return }
         
         do {
-            let trackedRectangle = try detector.detect(in: ciImage)
-            let uiImage = UIImage(ciImage: ciImage)
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.preImageView.image = uiImage.rotate(by: 90)
-            }
+            let detectedRectangle = try detector.detect(in: ciImage)
+            let filteredImage = filter.filter(filterType: .perspectiveCorrection, image: ciImage, rectangle: detectedRectangle)
+            let document = Document(image: filteredImage, detectedRectangle: detectedRectangle)
+            storeDocument(document: document)
         } catch {
-            guard let error = error as? DetectError else { return }
-            print(error)
+            switch error {
+            case DetectError.rectangleDetectionFailed:
+                let document = Document(image: ciImage, detectedRectangle: nil)
+                storeDocument(document: document)
+            default:
+                print("Unknown Error on \(self)")
+            }
         }
     }
 }
 
 // MARK: Private Methods
 extension ScannerViewController {
-    @objc private func pushEditerViewController() {
+    @objc private func pushDocumentPagesViewController() {
+        if let documentPagesViewController = storyboard?.instantiateViewController(identifier: "DocumentPagesViewController", creator: { coder in
+            DocumentPagesViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer)
+        }) {
+            navigationController?.pushViewController(documentPagesViewController, animated: true)
+        }
+    }
+    
+    private func storeDocument(document: Document) {
+        documentPersistentContainer.store(document: document)
         
+        let uiImage = UIImage(ciImage: document.image)
+        DispatchQueue.main.async { [weak self] in
+            self?.documentPreview.image = uiImage.rotate(by: 90)
+        }
     }
 }
