@@ -112,6 +112,7 @@ extension ScannerViewController: CaptureProcessorDelegate {
         } catch {
             switch error {
             case DetectError.rectangleDetectionFailed:
+                // TODO: EditerViewController로 이동 후 클리핑 진행하도록 해야함.
                 let document = Document(image: ciImage, detectedRectangle: nil)
                 storeDocument(document: document)
             default:
@@ -124,7 +125,7 @@ extension ScannerViewController: CaptureProcessorDelegate {
 // MARK: Private Methods
 extension ScannerViewController {
     @objc private func pushDocumentPagesViewController() {
-        if let documentPagesViewController = storyboard?.instantiateViewController(identifier: "DocumentPagesViewController", creator: { coder in
+        if let documentPagesViewController = storyboard?.instantiateViewController(identifier: DocumentPagesViewController.identifier, creator: { coder in
             DocumentPagesViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer)
         }) {
             navigationController?.pushViewController(documentPagesViewController, animated: true)

@@ -1,15 +1,8 @@
 import UIKit
 
-final class DocumentPagesViewController: UIViewController {
-    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Document>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Document>
-    
+final class DocumentPagesViewController: UIViewController, UIViewControllerIdentifiable {
     // MARK: Dependencies
     private let documentPersistentContainer: DocumentPersistentContainerProtocol
-    
-    // MARK: Properties
-    private var dataSource: DataSource?
-    private var snapshot: Snapshot = Snapshot()
     
     // MARK: IBOutlets
     @IBOutlet private weak var documentCollectionView: UICollectionView!
@@ -26,7 +19,15 @@ final class DocumentPagesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-//        changeNavigationTitle()
+        configureDocumentCollectionView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let lastDocumentIndex = documentPersistentContainer.count - 1
+        let indexPath = IndexPath(item: lastDocumentIndex, section: .zero)
+        documentCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+        changeNavigationTitle(lastDocumentIndex)
     }
     
     // MARK: IBActions
@@ -45,42 +46,42 @@ final class DocumentPagesViewController: UIViewController {
 
 // MARK: Configure Methods
 extension DocumentPagesViewController {
-    private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DocumentCell, Document> { cell, indexPath, itemIdentifier in
-            cell.configureCell(with: itemIdentifier)
-        }
-        
-        dataSource = DataSource(collectionView: documentCollectionView) { (documentCollectionView, indexPath, itemIdentifier) -> DocumentCell? in
-            let cell = documentCollectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
-            return cell
-        }
-        
-        let allDocuments = documentPersistentContainer.resolve()
-        initializeDataSource(with: allDocuments)
+    private func configureDocumentCollectionView() {
+        documentCollectionView.delegate = self
+        documentCollectionView.dataSource = self
+        documentCollectionView.isPagingEnabled = true
+        documentCollectionView.showsHorizontalScrollIndicator = false
+        documentCollectionView.backgroundColor = .white
     }
 }
 
 // MARK: Private Methods
 extension DocumentPagesViewController {
     private func changeNavigationTitle(_ index: Int) {
-        // TODO: NavigationTitle 바뀌어야됨 스크롤 될떄마다
         navigationItem.title = "\(index + 1)/\(documentPersistentContainer.count)"
     }
 }
 
-// MARK: DataSource Controls
-extension DocumentPagesViewController {
-    private enum Section: Int, CaseIterable {
-        case main = 0
-        
-        var sectionNumber: Int {
-            self.rawValue
-        }
+// MARK: UICollectionViewDataSource & UICollectionViewDelegateFlowLayout
+extension DocumentPagesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return documentPersistentContainer.count
     }
     
-    private func initializeDataSource(with documents: [Document]) {
-        snapshot.appendSections(Section.allCases)
-        snapshot.appendItems(documents)
-        dataSource?.apply(snapshot, animatingDifferences: true)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DocumentCell.reuseIdentifier, for: indexPath) as? DocumentCell else {
+            return DocumentCell()
+        }
+        let document = documentPersistentContainer.resolve(for: indexPath.row)
+        cell.configureCell(with: document)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        changeNavigationTitle(indexPath.row)
     }
 }
