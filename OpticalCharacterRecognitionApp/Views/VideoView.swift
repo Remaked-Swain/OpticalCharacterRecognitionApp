@@ -24,12 +24,35 @@ final class VideoView: UIView {
     }
     
     private var highlightLayer: CAShapeLayer?
+    private var currentDetectedRectangle: RectangleModel?
     
     // MARK: Public
-    func updateRectangleOverlay(_ rectangle: TrackedRectangle, originImageRect rect: CGRect) {
-        highlightLayer?.removeFromSuperlayer()
+    func updateRectangleOverlay(_ rectangle: RectangleModel, originImageRect rect: CGRect) {
+        guard let currentDetectedRectangle = currentDetectedRectangle else {
+            drawHighlightLayer(rectangle, originImageRect: rect)
+            return
+        }
         
+        guard currentDetectedRectangle.isSimilar(with: rectangle) == false else {
+            return
+        }
+        
+        highlightLayer?.removeFromSuperlayer()
+        drawHighlightLayer(rectangle, originImageRect: rect)
+    }
+    
+    func removeRectangleOverlay() {
+        guard highlightLayer != nil else { return }
+        highlightLayer?.removeFromSuperlayer()
+        highlightLayer = nil
+    }
+}
+
+// MARK: Draw Methods
+extension VideoView {
+    private func drawHighlightLayer(_ rectangle: RectangleModel, originImageRect rect: CGRect) {
         let scaledRectangle = convertRectangleCoordinatesSpace(rectangle, originImageRect: rect)
+        currentDetectedRectangle = scaledRectangle
         
         let layer = createShapeLayer(for: scaledRectangle)
         let path = createPath(for: scaledRectangle)
@@ -39,25 +62,18 @@ final class VideoView: UIView {
         highlightLayer = layer
     }
     
-    func removeRectangleOverlay() {
-        highlightLayer?.removeFromSuperlayer()
-    }
-}
-
-// MARK: Draw Methods
-extension VideoView {
-    private func convertRectangleCoordinatesSpace(_ rectangle: TrackedRectangle, originImageRect rect: CGRect) -> TrackedRectangle {
+    private func convertRectangleCoordinatesSpace(_ rectangle: RectangleModel, originImageRect rect: CGRect) -> RectangleModel {
         let imageWidth = rect.width
         let imageHeight = rect.height
         
         let scaleX = videoPreviewLayer.bounds.width / imageWidth
         let scaleY = videoPreviewLayer.bounds.height / imageHeight
         
-        let cornerPoints = rectangle.cornerPoints.map { $0.flipPositionY(scaleX, scaleY, originImageHeight: videoPreviewLayer.bounds.height) }
-        return TrackedRectangle(cornerPoints: cornerPoints)
+        let cornerPoints = rectangle.cornerPoints.map { $0.flipPositionY(scaleX, scaleY, displayTargetHeight: videoPreviewLayer.bounds.height) }
+        return RectangleModel(cornerPoints: cornerPoints)
     }
     
-    private func createShapeLayer(for rectangle: TrackedRectangle) -> CAShapeLayer {
+    private func createShapeLayer(for rectangle: RectangleModel) -> CAShapeLayer {
         let strokeColor = Theme.paintCGColor(.sub, alpha: 1)
         let fillColor = Theme.paintCGColor(.main, alpha: 0.5)
         let layer = CAShapeLayer()
@@ -67,7 +83,7 @@ extension VideoView {
         return layer
     }
     
-    private func createPath(for rectangle: TrackedRectangle) -> UIBezierPath {
+    private func createPath(for rectangle: RectangleModel) -> UIBezierPath {
         let path = UIBezierPath()
         for (index, point) in rectangle.cornerPoints.enumerated() {
             if index == 0 {
