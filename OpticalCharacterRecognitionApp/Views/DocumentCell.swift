@@ -1,18 +1,14 @@
 import UIKit
 
-final class DocumentCell: UICollectionViewCell {
-    // MARK: Properties
-    private var document: Document?
-    
+final class DocumentCell: UICollectionViewCell, ReusingCellIdentifiable {
     // MARK: IBOutlets
     @IBOutlet private weak var documentImageView: UIImageView!
-    
-    
 }
 
 // MARK: Configure Methods
 extension DocumentCell {
     func configureCell(with document: Document) {
-        self.document = document
+        let uiImage = UIImage(ciImage: document.image)
+        documentImageView.image = uiImage.rotate(by: 90)
     }
 }
