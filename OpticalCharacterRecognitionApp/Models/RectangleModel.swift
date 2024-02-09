@@ -14,7 +14,7 @@ import CoreImage
  ```
  - Important: 다음과 같은 배열의 순서로 초기화합니다. [topLeft, topRight, bottomRight, bottomLeft]
  */
-struct TrackedRectangle {
+struct RectangleModel {
     let topLeft: CGPoint
     let topRight: CGPoint
     let bottomLeft: CGPoint

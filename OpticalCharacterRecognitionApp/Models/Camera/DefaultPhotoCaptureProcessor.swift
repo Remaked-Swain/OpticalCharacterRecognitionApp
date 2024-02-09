@@ -45,11 +45,6 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     func capture() {
         let settings = AVCapturePhotoSettings()
         settings.photoQualityPrioritization = .balanced
-        
-        if let connection = photoOutput.connection(with: .video) {
-            connection.videoOrientation = .portrait
-        }
-        
         photoOutput.capturePhoto(with: settings, delegate: self)
     }
     

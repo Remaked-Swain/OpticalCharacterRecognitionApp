@@ -3,7 +3,6 @@ import AVFoundation
 
 final class ScannerViewController: UIViewController {
     // MARK: Dependencies
-    private let motionDetector: MotionDetectable = MotionDetector()
     private let photoCaptureProcessor: PhotoCaptureProcessor = DefaultPhotoCaptureProcessor()
     private let detector: DocumentDetector = DefaultDocumentDetector()
     
@@ -20,7 +19,6 @@ final class ScannerViewController: UIViewController {
         view.backgroundColor = .white
         photoCaptureProcessor.delegate = self
         configurePhotoCaptureProcessor()
-        motionDetector.startDetection()
     }
     
     override func viewDidLayoutSubviews() {
@@ -36,12 +34,15 @@ final class ScannerViewController: UIViewController {
             photoCaptureProcessor.start()
         }
     }
+    
     @IBAction private func touchUpCaptureModeButton(_ sender: UIButton) {
         
     }
+    
     @IBAction private func touchUpTakeCaptureButton(_ sender: UIButton) {
         photoCaptureProcessor.capture()
     }
+    
     @IBAction private func touchUpSaveCaptureButton(_ sender: UIButton) {
         
     }
@@ -62,22 +63,53 @@ extension ScannerViewController {
             print(error)
         }
     }
+    
+    private func configurePreImageView() {
+        preImageView.isUserInteractionEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pushEditerViewController))
+        
+        
+    }
 }
 
 // MARK: CaptureProcessorDelegate Confirmation
 extension ScannerViewController: CaptureProcessorDelegate {
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput pixelBuffer: CVPixelBuffer) {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-        guard let trackedRectangle = detector.detect(in: ciImage) else { return }
         
-        DispatchQueue.main.async { [weak self] in
-            self?.videoView.updateRectangleOverlay(trackedRectangle, originImageRect: ciImage.extent)
+        do {
+            let trackedRectangle = try detector.detect(in: ciImage)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.videoView.updateRectangleOverlay(trackedRectangle, originImageRect: ciImage.extent)
+            }
+        } catch {
+            DispatchQueue.main.async { [weak self] in
+                self?.videoView.removeRectangleOverlay()
+            }
         }
     }
     
     func captureOutput(_ delegate: PhotoCaptureProcessor, didOutput ciImage: CIImage?, withError error: Error?) {
         guard let ciImage = ciImage else { return }
-        let uiImage = UIImage(ciImage: ciImage)
-        preImageView.image = uiImage
+        
+        do {
+            let trackedRectangle = try detector.detect(in: ciImage)
+            let uiImage = UIImage(ciImage: ciImage)
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.preImageView.image = uiImage.rotate(by: 90)
+            }
+        } catch {
+            guard let error = error as? DetectError else { return }
+            print(error)
+        }
+    }
+}
+
+// MARK: Private Methods
+extension ScannerViewController {
+    @objc private func pushEditerViewController() {
+        
     }
 }

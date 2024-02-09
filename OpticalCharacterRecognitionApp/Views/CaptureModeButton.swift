@@ -1,37 +1,32 @@
 import UIKit
 
-enum CaptureMode {
-    case automatic, manual
-    
-    var title: String {
-        switch self {
-        case .automatic:
-            "자동"
-        case .manual:
-            "수동"
+final class CaptureModeButton: UIButton {
+    enum CaptureMode: Int {
+        case automatic = 0
+        case manual
+        
+        var title: String {
+            switch self {
+            case .automatic:
+                "자동"
+            case .manual:
+                "수동"
+            }
         }
     }
-}
-
-protocol CaptureModeButtonProtocol {
-    var currentMode: CaptureMode { get }
-    func toggleCaptureMode()
-}
-
-final class CaptureModeButton: UIButton, CaptureModeButtonProtocol {
-    var currentMode: CaptureMode
     
-    init(currentMode: CaptureMode = .automatic) {
-        self.currentMode = currentMode
-        super.init(frame: .zero)
+    var currentMode: CaptureMode = .automatic {
+        didSet {
+            setTitle(currentMode)
+        }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func configureCaptureButton() {
+        setTitle(currentMode)
     }
     
     func toggleCaptureMode() {
-        currentMode == .automatic ? setTitle(.manual) : setTitle(.automatic)
+        currentMode = currentMode == .automatic ? .manual : .automatic
     }
     
     private func setTitle(_ mode: CaptureMode) {
