@@ -1,8 +1,9 @@
-//
-//  ReusingCellIdentifiable.swift
-//  OpticalCharacterRecognitionApp
-//
-//  Created by Swain Yun on 2/9/24.
-//
+import UIKit
 
-import Foundation
+protocol ReusingCellIdentifiable: UICollectionViewCell {
+    static var reuseIdentifier: String { get }
+}
+
+extension ReusingCellIdentifiable {
+    static var reuseIdentifier: String { String(describing: self.self) }
+}
