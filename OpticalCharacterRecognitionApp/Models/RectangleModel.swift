@@ -5,14 +5,9 @@ import CoreImage
  추적 중인 사각형 물체를 설명합니다.
  
  ```swift
- init(cornerPoints: [CGPoint]) {
-     self.topLeft = cornerPoints[0]
-     self.topRight = cornerPoints[1]
-     self.bottomLeft = cornerPoints[2]
-     self.bottomRight = cornerPoints[3]
- }
+ init(cornerPoints: [CGPoint])
  ```
- - Important: 다음과 같은 배열의 순서로 초기화합니다. [topLeft, topRight, bottomRight, bottomLeft]
+ - Important: 위 생성자를 사용할 경우, 다음과 같은 배열의 순서로 초기화합니다. [topLeft, topRight, bottomRight, bottomLeft]
  */
 struct RectangleModel {
     let topLeft: CGPoint
@@ -46,7 +41,7 @@ struct RectangleModel {
     }
     
     func isSimilar(with rectangle: RectangleModel) -> Bool {
-        let distanceThreshold: CGFloat = 2700
+        let distanceThreshold: CGFloat = 940
         
         if self.topLeft.distance(to: rectangle.topLeft) > distanceThreshold &&
            self.topRight.distance(to: rectangle.topRight) > distanceThreshold &&
