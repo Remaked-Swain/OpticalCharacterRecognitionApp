@@ -18,4 +18,9 @@ struct Theme {
         let uiColor = UIColor(named: type.name)
         return uiColor?.withAlphaComponent(alpha).cgColor
     }
+    
+    static func paintUIColor(_ type: Color, alpha: CGFloat = 1) -> UIColor? {
+        let uiColor = UIColor(named: type.name)
+        return uiColor?.withAlphaComponent(alpha)
+    }
 }
