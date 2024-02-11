@@ -30,6 +30,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1S0-0B-WMa" secondAttribute="height" multiplier="1:1" id="M1Z-IJ-85H"/>
+                                            <constraint firstAttribute="height" constant="100" id="tvd-GT-xNP"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Dy-sY-eZS">
@@ -67,11 +68,9 @@
                                     <constraint firstAttribute="bottom" secondItem="8SB-LW-59p" secondAttribute="bottom" id="IqE-g1-dhY"/>
                                     <constraint firstItem="4Dy-sY-eZS" firstAttribute="top" secondItem="FTE-bt-UT0" secondAttribute="top" id="URD-Q9-U8p"/>
                                     <constraint firstAttribute="bottom" secondItem="4Dy-sY-eZS" secondAttribute="bottom" id="Vor-Cx-1JK"/>
-                                    <constraint firstAttribute="height" constant="100" id="acn-W2-qMU"/>
-                                    <constraint firstItem="4Dy-sY-eZS" firstAttribute="height" secondItem="FTE-bt-UT0" secondAttribute="height" id="gaL-Df-fh9"/>
-                                    <constraint firstItem="1S0-0B-WMa" firstAttribute="height" secondItem="FTE-bt-UT0" secondAttribute="height" id="nig-TP-QnU"/>
+                                    <constraint firstItem="8SB-LW-59p" firstAttribute="height" secondItem="1S0-0B-WMa" secondAttribute="height" id="fSy-yy-BYf"/>
+                                    <constraint firstItem="4Dy-sY-eZS" firstAttribute="height" secondItem="1S0-0B-WMa" secondAttribute="height" id="oT3-Kj-TdM"/>
                                     <constraint firstAttribute="trailing" secondItem="8SB-LW-59p" secondAttribute="trailing" id="owB-Fd-NxP"/>
-                                    <constraint firstItem="8SB-LW-59p" firstAttribute="height" secondItem="FTE-bt-UT0" secondAttribute="height" id="p9v-ZV-8qx"/>
                                     <constraint firstItem="8SB-LW-59p" firstAttribute="top" secondItem="FTE-bt-UT0" secondAttribute="top" id="snl-hG-YBY"/>
                                 </constraints>
                             </stackView>
@@ -89,32 +88,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="SoR-E2-a9F">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="83R-Ic-RZ3">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="Jxs-YS-Mxj">
-                                <rect key="frame" x="16" y="5" width="87" height="34.333333333333336"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="취소"/>
-                                <connections>
-                                    <action selector="touchUpCancelButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="M0R-tv-sgu"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" title="취소" id="LxP-BU-8hL">
+                            <connections>
+                                <action selector="touchUpCancelButton:" destination="Y6W-OH-hqX" id="kII-ab-RnC"/>
+                            </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="4J2-f9-oxm">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="2v2-CX-k3c" customClass="CaptureModeButton" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="290" y="5" width="87" height="34.333333333333336"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="자동"/>
-                                <connections>
-                                    <action selector="touchUpCaptureModeButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9M7-X0-76h"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" title="자동" id="gTy-PZ-j8L" customClass="CaptureModeButton" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                            <connections>
+                                <action selector="touchUpCaptureModeButton:" destination="Y6W-OH-hqX" id="8hG-14-vl3"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cancelButton" destination="Jxs-YS-Mxj" id="0cn-HT-5XD"/>
-                        <outlet property="captureModeButton" destination="2v2-CX-k3c" id="NAq-fo-oV8"/>
+                        <outlet property="cancelButton" destination="LxP-BU-8hL" id="50J-mf-C7c"/>
+                        <outlet property="captureModeButton" destination="gTy-PZ-j8L" id="aL3-xJ-fpB"/>
                         <outlet property="documentPreview" destination="1S0-0B-WMa" id="PVG-9V-vux"/>
                         <outlet property="saveCaptureButton" destination="8SB-LW-59p" id="YYN-MK-OQb"/>
                         <outlet property="takeCaptureButton" destination="4Dy-sY-eZS" id="0MI-5l-DsY"/>
@@ -125,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="713.74045801526711" y="131.69014084507043"/>
         </scene>
-        <!--Document Pages View Controller-->
+        <!--Document Gallery View Controller-->
         <scene sceneID="XOt-ku-PEd">
             <objects>
-                <viewController storyboardIdentifier="DocumentPagesViewController" id="73d-4l-x7F" customClass="DocumentPagesViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DocumentGalleryViewController" id="73d-4l-x7F" customClass="DocumentGalleryViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZCb-Rm-iHe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -136,24 +123,21 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0UQ-Gw-o7Q">
                                 <rect key="frame" x="0.0" y="769" width="393" height="49"/>
                                 <items>
-                                    <barButtonItem systemItem="trash" id="DiH-HS-fb6">
-                                        <color key="tintColor" name="MainColor"/>
+                                    <barButtonItem systemItem="trash" id="Fi3-7X-YW5">
                                         <connections>
-                                            <action selector="touchUpTrashButton:" destination="73d-4l-x7F" id="ncA-e7-qMY"/>
+                                            <action selector="touchUpTrashButton:" destination="73d-4l-x7F" id="pSZ-o4-QJd"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="kb7-iQ-s8g"/>
-                                    <barButtonItem title="반시계" id="x2i-Pu-Z1D">
-                                        <color key="tintColor" name="MainColor"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="fQA-oJ-wMs"/>
+                                    <barButtonItem title="반시계" id="nDp-uO-M5Y">
                                         <connections>
-                                            <action selector="touchUpReversedClockButton:" destination="73d-4l-x7F" id="inE-z1-3Tt"/>
+                                            <action selector="touchUpReversedClockButton:" destination="73d-4l-x7F" id="sWq-MC-AlI"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="PY7-Qn-CVX"/>
-                                    <barButtonItem systemItem="compose" id="EL7-XM-o18">
-                                        <color key="tintColor" name="MainColor"/>
+                                    <barButtonItem systemItem="flexibleSpace" id="wZc-BW-pdM"/>
+                                    <barButtonItem systemItem="compose" id="IG5-R2-Tj3">
                                         <connections>
-                                            <action selector="touchUpComposeButton:" destination="73d-4l-x7F" id="k0R-Tt-dUn"/>
+                                            <action selector="touchUpComposeButton:" destination="73d-4l-x7F" id="4cB-SL-sKa"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -181,8 +165,6 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="yk3-61-5Sv" secondAttribute="trailing" id="2oH-1j-0ZE"/>
-                                                <constraint firstItem="yk3-61-5Sv" firstAttribute="centerY" secondItem="Dsh-dB-DO5" secondAttribute="centerY" id="RRM-T9-Z33"/>
-                                                <constraint firstItem="yk3-61-5Sv" firstAttribute="centerX" secondItem="Dsh-dB-DO5" secondAttribute="centerX" id="SHv-Go-eGJ"/>
                                                 <constraint firstAttribute="bottom" secondItem="yk3-61-5Sv" secondAttribute="bottom" id="eev-Bm-mM0"/>
                                                 <constraint firstItem="yk3-61-5Sv" firstAttribute="leading" secondItem="Dsh-dB-DO5" secondAttribute="leading" id="nPF-jz-y4A"/>
                                                 <constraint firstItem="yk3-61-5Sv" firstAttribute="top" secondItem="Dsh-dB-DO5" secondAttribute="top" id="uZi-i6-nZG"/>
@@ -215,22 +197,56 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uAB-4L-s1g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1478.6259541984732" y="131.69014084507043"/>
+            <point key="canvasLocation" x="1552" y="-147"/>
         </scene>
         <!--Editer View Controller-->
-        <scene sceneID="Ujr-Jj-bBj">
+        <scene sceneID="vzj-AY-M96">
             <objects>
-                <viewController storyboardIdentifier="EditerViewController" id="2Hi-iP-LHl" customClass="EditerViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="4px-z2-ZSK">
+                <viewController storyboardIdentifier="EditerViewController" wantsFullScreenLayout="YES" id="bh1-6Z-4RW" customClass="EditerViewController" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tcQ-b7-E22">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="BvK-PP-7Jh"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wC1-rn-psk">
+                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                                <items>
+                                    <barButtonItem systemItem="cancel" id="DNR-gN-Yql">
+                                        <connections>
+                                            <action selector="touchUpCancelButton:" destination="bh1-6Z-4RW" id="Kdf-t1-6Hk"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="flexibleSpace" id="iIv-wD-gVh"/>
+                                    <barButtonItem systemItem="done" id="TNV-Ta-O6I">
+                                        <connections>
+                                            <action selector="touchUpDoneButton:" destination="bh1-6Z-4RW" id="v8X-ii-4lr"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vbr-Vo-1Ji" customClass="DocumentImageView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="igz-o3-5OF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="leading" secondItem="igz-o3-5OF" secondAttribute="leading" id="NSn-rC-EEZ"/>
+                            <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="top" secondItem="igz-o3-5OF" secondAttribute="top" id="QOP-4P-oGj"/>
+                            <constraint firstItem="wC1-rn-psk" firstAttribute="leading" secondItem="igz-o3-5OF" secondAttribute="leading" id="evl-wC-wKy"/>
+                            <constraint firstItem="wC1-rn-psk" firstAttribute="trailing" secondItem="igz-o3-5OF" secondAttribute="trailing" id="fcx-du-9Df"/>
+                            <constraint firstItem="wC1-rn-psk" firstAttribute="top" secondItem="Vbr-Vo-1Ji" secondAttribute="bottom" id="hl6-Tw-BVG"/>
+                            <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="trailing" secondItem="igz-o3-5OF" secondAttribute="trailing" id="lZo-QU-BwI"/>
+                            <constraint firstItem="wC1-rn-psk" firstAttribute="bottom" secondItem="igz-o3-5OF" secondAttribute="bottom" id="nOg-l9-V3n"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="8O0-qk-4cC"/>
+                    <connections>
+                        <outlet property="documentImageView" destination="Vbr-Vo-1Ji" id="sFa-9E-9d7"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BLq-6j-1kc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MkO-XF-A8A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2253" y="132"/>
+            <point key="canvasLocation" x="1552" y="531"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YPa-7s-94l">

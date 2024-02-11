@@ -8,7 +8,8 @@ final class DocumentCell: UICollectionViewCell, ReusingCellIdentifiable {
 // MARK: Configure Methods
 extension DocumentCell {
     func configureCell(with document: Document) {
+        documentImageView.contentMode = .scaleAspectFit
         let uiImage = UIImage(ciImage: document.image)
-        documentImageView.image = uiImage.rotate(by: 90)
+        documentImageView.image = uiImage.rotate()
     }
 }
