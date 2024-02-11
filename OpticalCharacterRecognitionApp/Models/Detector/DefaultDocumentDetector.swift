@@ -1,11 +1,11 @@
 import Foundation
 import CoreImage
 
-protocol DocumentDetector: AnyObject {
+protocol DocumentDetector: FilterProtocol {
     func detect(in ciImage: CIImage) throws -> RectangleModel
 }
 
-final class DefaultDocumentDetector: DocumentDetector {
+struct DefaultDocumentDetector: DocumentDetector {
     // MARK: Properties
     private let detector: CIDetector? = CIDetector(ofType: CIDetectorTypeRectangle,
                                                    context: nil)
