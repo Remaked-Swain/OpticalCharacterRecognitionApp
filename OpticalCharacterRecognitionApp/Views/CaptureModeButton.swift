@@ -1,6 +1,6 @@
 import UIKit
 
-final class CaptureModeButton: UIButton {
+final class CaptureModeButton: UIBarButtonItem {
     enum CaptureMode {
         case automatic
         case manual
@@ -30,6 +30,6 @@ final class CaptureModeButton: UIButton {
     }
     
     private func setTitle(_ mode: CaptureMode) {
-        self.setTitle(mode.title, for: .normal)
+        self.title = mode.title
     }
 }
