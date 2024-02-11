@@ -4,12 +4,11 @@ import AVFoundation
 final class ScannerViewController: UIViewController {
     // MARK: Dependencies
     private let photoCaptureProcessor: PhotoCaptureProcessor = DefaultPhotoCaptureProcessor()
-    private let detector: DocumentDetector = DefaultDocumentDetector()
+    private let documentDetector: DocumentDetector = DefaultDocumentDetector()
     private let documentPersistentContainer: DocumentPersistentContainerProtocol = DocumentPersistentContainer()
-    private let filter: FilterProtocol = Filter()
     
     // MARK: IBOutlets
-    @IBOutlet private weak var cancelButton: UIButton!
+    @IBOutlet private weak var cancelButton: UIBarButtonItem!
     @IBOutlet private weak var captureModeButton: CaptureModeButton!
     @IBOutlet private weak var videoView: VideoView!
     @IBOutlet private weak var documentPreview: UIImageView!
@@ -40,7 +39,7 @@ final class ScannerViewController: UIViewController {
     }
     
     // MARK: IBActions
-    @IBAction private func touchUpCancelButton(_ sender: UIButton) {
+    @IBAction private func touchUpCancelButton(_ sender: UIBarButtonItem) {
         if photoCaptureProcessor.session.isRunning {
             photoCaptureProcessor.stop()
         } else {
@@ -48,7 +47,7 @@ final class ScannerViewController: UIViewController {
         }
     }
     
-    @IBAction private func touchUpCaptureModeButton(_ sender: UIButton) {
+    @IBAction private func touchUpCaptureModeButton(_ sender: UIBarButtonItem) {
         captureModeButton.toggleCaptureMode()
     }
     
@@ -76,7 +75,7 @@ extension ScannerViewController {
     }
     
     private func configureDocumentPreview() {
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pushDocumentPagesViewController))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(pushDocumentGalleryViewController))
         documentPreview.isUserInteractionEnabled = true
         documentPreview.addGestureRecognizer(tapGestureRecognizer)
         documentPreview.contentMode = .scaleAspectFill
@@ -89,7 +88,7 @@ extension ScannerViewController: CaptureProcessorDelegate {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         
         do {
-            let detectedRectangle = try detector.detect(in: ciImage)
+            let detectedRectangle = try documentDetector.detect(in: ciImage)
             
             DispatchQueue.main.async { [weak self] in
                 self?.videoView.updateRectangleOverlay(detectedRectangle, originImageRect: ciImage.extent)
@@ -105,18 +104,18 @@ extension ScannerViewController: CaptureProcessorDelegate {
         guard let ciImage = ciImage else { return }
         
         do {
-            let detectedRectangle = try detector.detect(in: ciImage)
-            let filteredImage = filter.filter(filterType: .perspectiveCorrection, image: ciImage, rectangle: detectedRectangle)
+            let detectedRectangle = try documentDetector.detect(in: ciImage)
+            let filteredImage = documentDetector.filter(filterType: .perspectiveCorrection, image: ciImage, rectangle: detectedRectangle)
             let document = Document(image: filteredImage, detectedRectangle: detectedRectangle)
             storeDocument(document: document)
         } catch {
             switch error {
             case DetectError.rectangleDetectionFailed:
-                // TODO: EditerViewController로 이동 후 클리핑 진행하도록 해야함.
                 let document = Document(image: ciImage, detectedRectangle: nil)
                 storeDocument(document: document)
+                pushEditerViewController()
             default:
-                print("Unknown Error on \(self)")
+                print("Unknown Error Occurred on \(self)")
             }
         }
     }
@@ -124,11 +123,19 @@ extension ScannerViewController: CaptureProcessorDelegate {
 
 // MARK: Private Methods
 extension ScannerViewController {
-    @objc private func pushDocumentPagesViewController() {
-        if let documentPagesViewController = storyboard?.instantiateViewController(identifier: DocumentPagesViewController.identifier, creator: { coder in
-            DocumentPagesViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer)
+    @objc private func pushDocumentGalleryViewController() {
+        if let documentGalleryViewController = storyboard?.instantiateViewController(identifier: DocumentGalleryViewController.identifier, creator: { coder in
+            DocumentGalleryViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector)
         }) {
-            navigationController?.pushViewController(documentPagesViewController, animated: true)
+            navigationController?.pushViewController(documentGalleryViewController, animated: true)
+        }
+    }
+    
+    private func pushEditerViewController() {
+        if let editerViewController = storyboard?.instantiateViewController(identifier: EditerViewController.identifier, creator: { coder in
+            EditerViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector)
+        }) {
+            navigationController?.pushViewController(editerViewController, animated: true)
         }
     }
     
@@ -137,7 +144,7 @@ extension ScannerViewController {
         
         let uiImage = UIImage(ciImage: document.image)
         DispatchQueue.main.async { [weak self] in
-            self?.documentPreview.image = uiImage.rotate(by: 90)
+            self?.documentPreview.image = uiImage.rotate()
         }
     }
 }
