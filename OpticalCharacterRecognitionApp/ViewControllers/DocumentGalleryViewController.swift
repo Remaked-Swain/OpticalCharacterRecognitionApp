@@ -29,7 +29,7 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
         let lastDocumentIndex = documentPersistentContainer.count - 1
         let indexPath = IndexPath(item: lastDocumentIndex, section: .zero)
         documentCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
-        navigationController?.navigationItem.title = "\(lastDocumentIndex + 1)/\(documentPersistentContainer.count)"
+        changeNavigationTitle(index: lastDocumentIndex)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -37,15 +37,15 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     }
     
     // MARK: IBActions
-    @IBAction private func touchUpTrashButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpTrashButton(_ sender: UIButton) {
         
     }
     
-    @IBAction private func touchUpReversedClockButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpReversedClockButton(_ sender: UIButton) {
         
     }
     
-    @IBAction private func touchUpComposeButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpComposeButton(_ sender: UIButton) {
         
     }
 }
@@ -83,6 +83,17 @@ extension DocumentGalleryViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        changeNavigationTitle(indexPath.row)
+        changeNavigationTitle(index: indexPath.row)
+    }
+}
+
+// MARK: Private Methods
+extension DocumentGalleryViewController {
+    private func changeNavigationTitle(index: Int) {
+        guard documentPersistentContainer.isEmpty == false else {
+            navigationItem.title = "갤러리가 비어있습니다."
+            return
+        }
+        navigationItem.title = "\(index + 1)/\(documentPersistentContainer.count)"
     }
 }
