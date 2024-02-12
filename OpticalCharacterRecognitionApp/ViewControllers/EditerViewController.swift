@@ -6,14 +6,15 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     private let documentDetector: DocumentDetector
     
     // MARK: Properties
-    private var editingDocument: Document?
+    private var editingDocument: Document
     
     // MARK: IBOutlets
     @IBOutlet private weak var documentImageView: DocumentImageView!
     
-    init?(coder: NSCoder, documentPersistentContainer: DocumentPersistentContainerProtocol, documentDetector: DocumentDetector) {
+    init?(coder: NSCoder, documentPersistentContainer: DocumentPersistentContainerProtocol, documentDetector: DocumentDetector, for editingDocument: Document) {
         self.documentPersistentContainer = documentPersistentContainer
         self.documentDetector = documentDetector
+        self.editingDocument = editingDocument
         super.init(coder: coder)
     }
     
@@ -33,9 +34,7 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     }
     
     @IBAction private func touchUpDoneButton(_ sender: UIButton) {
-        guard let editingDocument = editingDocument,
-              let detectedRectangle = editingDocument.detectedRectangle
-        else { return }
+        guard let detectedRectangle = editingDocument.detectedRectangle else { return }
         
         let editingImage = editingDocument.image
         let filteredImage = documentDetector.filter(filterType: .perspectiveCorrection, image: editingImage, rectangle: detectedRectangle)
@@ -48,27 +47,20 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
 // MARK: Configure Methods
 extension EditerViewController {
     private func configureDocumentImageView() {
-        let lastDocumentIndex = documentPersistentContainer.count - 1
-        guard let document = try? documentPersistentContainer.fetch(for: lastDocumentIndex) else {
-            print("Fetching Document Failed")
-            return
-        }
-        
-        editingDocument = document
         documentImageView.delegate = self
-        documentImageView.configure(with: document.image)
+        documentImageView.configure(with: editingDocument.image)
     }
 }
 
 // MARK: MagneticRectanglePresentationDelegate Confirmation
 extension EditerViewController: MagneticRectanglePresentationDelegate {
     func didHighlightAreaUpdate(_ delegate: DocumentImageView, imageInArea ciImage: CIImage) {
-        guard let detectedRectangle = try? documentDetector.detect(in: ciImage) else {
-            editingDocument = editingDocument?.changeDocument(newDetectedRectangle: nil)
-            return
+        do {
+            let detectedRectangle = try documentDetector.detect(in: ciImage)
+            documentImageView.updateMagneticRectangleHighlight(detectedRectangle)
+            editingDocument = editingDocument.changeDocument(newImage: ciImage, newDetectedRectangle: detectedRectangle)
+        } catch {
+            editingDocument = editingDocument.changeDocument(newDetectedRectangle: nil)
         }
-        
-        documentImageView.updateMagneticRectangleHighlight(detectedRectangle)
-        editingDocument = editingDocument?.changeDocument(newImage: ciImage, newDetectedRectangle: detectedRectangle)
     }
 }

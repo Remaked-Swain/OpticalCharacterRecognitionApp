@@ -5,6 +5,9 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     private let documentPersistentContainer: DocumentPersistentContainerProtocol
     private let documentDetector: DocumentDetector
     
+    // MARK: Properties
+    private var displayingDocumentIndex: IndexPath?
+    
     // MARK: IBOutlets
     @IBOutlet private weak var documentCollectionView: UICollectionView!
     
@@ -38,7 +41,10 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     
     // MARK: IBActions
     @IBAction private func touchUpTrashButton(_ sender: UIButton) {
-        
+        guard let indexPath = displayingDocumentIndex else { return }
+        documentPersistentContainer.delete(at: indexPath.row)
+        documentCollectionView.deleteItems(at: [indexPath])
+        documentCollectionView.reloadData()
     }
     
     @IBAction private func touchUpReversedClockButton(_ sender: UIButton) {
@@ -46,7 +52,9 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     }
     
     @IBAction private func touchUpComposeButton(_ sender: UIButton) {
-        
+        if let index = displayingDocumentIndex?.row, let documentForEdit = try? documentPersistentContainer.fetch(for: index) {
+            pushEditerViewController(with: documentForEdit)
+        }
     }
 }
 
@@ -84,6 +92,7 @@ extension DocumentGalleryViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         changeNavigationTitle(index: indexPath.row)
+        displayingDocumentIndex = indexPath
     }
 }
 
@@ -95,5 +104,13 @@ extension DocumentGalleryViewController {
             return
         }
         navigationItem.title = "\(index + 1)/\(documentPersistentContainer.count)"
+    }
+    
+    private func pushEditerViewController(with documentForEdit: Document) {
+        if let editerViewController = storyboard?.instantiateViewController(identifier: EditerViewController.identifier, creator: { coder in
+            EditerViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector, for: documentForEdit)
+        }) {
+            navigationController?.pushViewController(editerViewController, animated: true)
+        }
     }
 }

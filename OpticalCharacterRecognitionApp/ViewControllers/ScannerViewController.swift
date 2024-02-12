@@ -27,6 +27,13 @@ final class ScannerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         videoView.session = photoCaptureProcessor.session
         photoCaptureProcessor.start()
+        
+        guard let lastDocument = try? documentPersistentContainer.fetch(for: documentPersistentContainer.count - 1) else {
+            documentPreview.image = nil
+            return
+        }
+        let uiImage = UIImage(ciImage: lastDocument.image)
+        documentPreview.image = uiImage.rotate()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -111,9 +118,10 @@ extension ScannerViewController: CaptureProcessorDelegate {
         } catch {
             switch error {
             case DetectError.rectangleDetectionFailed:
+                photoCaptureProcessor.stop()
                 let document = Document(image: ciImage, detectedRectangle: nil)
                 storeDocument(document: document)
-                pushEditerViewController()
+                pushEditerViewController(with: document)
             default:
                 print("Unknown Error Occurred on \(self)")
             }
@@ -131,9 +139,9 @@ extension ScannerViewController {
         }
     }
     
-    private func pushEditerViewController() {
+    private func pushEditerViewController(with documentForEdit: Document) {
         if let editerViewController = storyboard?.instantiateViewController(identifier: EditerViewController.identifier, creator: { coder in
-            EditerViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector)
+            EditerViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector, for: documentForEdit)
         }) {
             navigationController?.pushViewController(editerViewController, animated: true)
         }
