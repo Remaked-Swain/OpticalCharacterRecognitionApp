@@ -41,12 +41,11 @@ struct RectangleModel {
     }
     
     func isSimilar(with rectangle: RectangleModel) -> Bool {
-        let distanceThreshold: CGFloat = 940
+        let distanceThreshold: CGFloat = 1850
         
-        if self.topLeft.distance(to: rectangle.topLeft) > distanceThreshold &&
-           self.topRight.distance(to: rectangle.topRight) > distanceThreshold &&
-           self.bottomLeft.distance(to: rectangle.bottomLeft) > distanceThreshold &&
-           self.bottomRight.distance(to: rectangle.bottomRight) > distanceThreshold {
+        let expectedDistance = ((topLeft.distance(to: rectangle.topLeft) + topLeft.distance(to: rectangle.topLeft) + bottomLeft.distance(to: rectangle.bottomLeft) + bottomRight.distance(to: rectangle.bottomRight)) / 4)
+        
+        if expectedDistance > distanceThreshold {
             return false
         }
         
