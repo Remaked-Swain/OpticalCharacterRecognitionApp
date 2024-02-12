@@ -15,7 +15,11 @@ protocol DocumentFetchable {
     func fetch() throws -> [Document]
 }
 
-typealias DocumentPersistentContainerProtocol = HoldingsCountable & DocumentStorable & DocumentFetchable
+protocol DocumentDeletable {
+    func delete(at index: Int)
+}
+
+typealias DocumentPersistentContainerProtocol = HoldingsCountable & DocumentStorable & DocumentFetchable & DocumentDeletable
 
 final class DocumentPersistentContainer: DocumentPersistentContainerProtocol {
     // MARK: Properties
@@ -39,10 +43,24 @@ final class DocumentPersistentContainer: DocumentPersistentContainerProtocol {
     }
     
     func fetch(for index: Int) throws -> Document {
-        container[index]
+        guard container.isEmpty == false else {
+            throw DocumentPersistentContainerError.documentNotFound
+        }
+        
+        guard index >= .zero && index < count else {
+            throw DocumentPersistentContainerError.indexOutOfRange
+        }
+        return container[index]
     }
     
     func fetch() throws -> [Document] {
-        container
+        guard container.isEmpty == false else {
+            throw DocumentPersistentContainerError.documentNotFound
+        }
+        return container
+    }
+    
+    func delete(at index: Int) {
+        container.remove(at: index)
     }
 }
