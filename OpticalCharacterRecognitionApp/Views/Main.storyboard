@@ -87,7 +87,7 @@
                             <constraint firstItem="Rrm-w4-WqQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="siA-W7-Dvd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SoR-E2-a9F">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="SoR-E2-a9F">
                         <barButtonItem key="leftBarButtonItem" title="취소" id="LxP-BU-8hL">
                             <connections>
                                 <action selector="touchUpCancelButton:" destination="Y6W-OH-hqX" id="kII-ab-RnC"/>
@@ -120,30 +120,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0UQ-Gw-o7Q">
-                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
-                                <items>
-                                    <barButtonItem systemItem="trash" id="Fi3-7X-YW5">
-                                        <connections>
-                                            <action selector="touchUpTrashButton:" destination="73d-4l-x7F" id="pSZ-o4-QJd"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="fQA-oJ-wMs"/>
-                                    <barButtonItem title="반시계" id="nDp-uO-M5Y">
-                                        <connections>
-                                            <action selector="touchUpReversedClockButton:" destination="73d-4l-x7F" id="sWq-MC-AlI"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="wZc-BW-pdM"/>
-                                    <barButtonItem systemItem="compose" id="IG5-R2-Tj3">
-                                        <connections>
-                                            <action selector="touchUpComposeButton:" destination="73d-4l-x7F" id="4cB-SL-sKa"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-DT-CeY">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="700.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sOc-PY-jUX">
                                     <size key="itemSize" width="128" height="128"/>
@@ -153,7 +131,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DocumentCell" id="k7N-6W-4wX" customClass="DocumentCell" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="394" height="710"/>
+                                        <rect key="frame" x="0.0" y="-4.666666666666667" width="394" height="710"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Dsh-dB-DO5">
                                             <rect key="frame" x="0.0" y="0.0" width="394" height="710"/>
@@ -177,17 +155,46 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="u1d-TG-eF7">
+                                <rect key="frame" x="12" y="771.66666666666663" width="369" height="34.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgt-Pc-Cw7">
+                                        <rect key="frame" x="0.0" y="0.0" width="48" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system"/>
+                                        <connections>
+                                            <action selector="touchUpTrashButton:" destination="73d-4l-x7F" eventType="touchUpInside" id="sPE-ge-jRM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GpS-d3-kZk">
+                                        <rect key="frame" x="149.66666666666666" y="0.0" width="68.333333333333343" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="반시계"/>
+                                        <connections>
+                                            <action selector="touchUpReversedClockButton:" destination="73d-4l-x7F" eventType="touchUpInside" id="G9o-Mc-wnG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1v-f9-qg0">
+                                        <rect key="frame" x="318.33333333333331" y="0.0" width="50.666666666666686" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="square.and.pencil" catalog="system"/>
+                                        <connections>
+                                            <action selector="touchUpComposeButton:" destination="73d-4l-x7F" eventType="touchUpInside" id="A2W-5Q-q9q"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="iWb-h7-Uhs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vqO-DT-CeY" firstAttribute="leading" secondItem="iWb-h7-Uhs" secondAttribute="leading" id="AEY-AV-gPV"/>
-                            <constraint firstItem="0UQ-Gw-o7Q" firstAttribute="bottom" secondItem="iWb-h7-Uhs" secondAttribute="bottom" id="I6p-8U-7PN"/>
+                            <constraint firstItem="u1d-TG-eF7" firstAttribute="leading" secondItem="iWb-h7-Uhs" secondAttribute="leading" constant="12" id="LNP-9y-Ey9"/>
                             <constraint firstItem="vqO-DT-CeY" firstAttribute="top" secondItem="iWb-h7-Uhs" secondAttribute="top" id="W0N-U5-ecB"/>
-                            <constraint firstItem="0UQ-Gw-o7Q" firstAttribute="top" secondItem="vqO-DT-CeY" secondAttribute="bottom" id="l61-kV-7xa"/>
+                            <constraint firstItem="iWb-h7-Uhs" firstAttribute="trailing" secondItem="u1d-TG-eF7" secondAttribute="trailing" constant="12" id="XXn-9X-yG9"/>
+                            <constraint firstItem="iWb-h7-Uhs" firstAttribute="bottom" secondItem="u1d-TG-eF7" secondAttribute="bottom" constant="12" id="eEd-uL-Xqu"/>
+                            <constraint firstItem="u1d-TG-eF7" firstAttribute="top" secondItem="vqO-DT-CeY" secondAttribute="bottom" constant="12" id="guv-Vx-InP"/>
                             <constraint firstItem="vqO-DT-CeY" firstAttribute="trailing" secondItem="iWb-h7-Uhs" secondAttribute="trailing" id="pEU-oA-tgj"/>
-                            <constraint firstItem="0UQ-Gw-o7Q" firstAttribute="trailing" secondItem="iWb-h7-Uhs" secondAttribute="trailing" id="rBN-0Q-66u"/>
-                            <constraint firstItem="0UQ-Gw-o7Q" firstAttribute="leading" secondItem="iWb-h7-Uhs" secondAttribute="leading" id="z8W-J7-5O3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="pZR-8F-hZ0"/>
@@ -197,7 +204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uAB-4L-s1g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1552" y="-147"/>
+            <point key="canvasLocation" x="1551.9083969465648" y="-147.18309859154931"/>
         </scene>
         <!--Editer View Controller-->
         <scene sceneID="vzj-AY-M96">
@@ -207,36 +214,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wC1-rn-psk">
-                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
-                                <items>
-                                    <barButtonItem systemItem="cancel" id="DNR-gN-Yql">
-                                        <connections>
-                                            <action selector="touchUpCancelButton:" destination="bh1-6Z-4RW" id="Kdf-t1-6Hk"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="flexibleSpace" id="iIv-wD-gVh"/>
-                                    <barButtonItem systemItem="done" id="TNV-Ta-O6I">
-                                        <connections>
-                                            <action selector="touchUpDoneButton:" destination="bh1-6Z-4RW" id="v8X-ii-4lr"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vbr-Vo-1Ji" customClass="DocumentImageView" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="700.66666666666663"/>
                             </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="7vd-ad-oGn">
+                                <rect key="frame" x="12" y="771.66666666666663" width="369" height="34.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IDx-cZ-Cu9">
+                                        <rect key="frame" x="0.0" y="0.0" width="76.666666666666671" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
+                                        <connections>
+                                            <action selector="touchUpCancelButton:" destination="bh1-6Z-4RW" eventType="touchUpInside" id="Ykb-h3-aSY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jd-D9-AXZ">
+                                        <rect key="frame" x="304.66666666666669" y="0.0" width="64.333333333333314" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Done"/>
+                                        <connections>
+                                            <action selector="touchUpDoneButton:" destination="bh1-6Z-4RW" eventType="touchUpInside" id="aex-lo-sgJ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="igz-o3-5OF"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="igz-o3-5OF" firstAttribute="trailing" secondItem="7vd-ad-oGn" secondAttribute="trailing" constant="12" id="Lol-bq-m2I"/>
                             <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="leading" secondItem="igz-o3-5OF" secondAttribute="leading" id="NSn-rC-EEZ"/>
                             <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="top" secondItem="igz-o3-5OF" secondAttribute="top" id="QOP-4P-oGj"/>
-                            <constraint firstItem="wC1-rn-psk" firstAttribute="leading" secondItem="igz-o3-5OF" secondAttribute="leading" id="evl-wC-wKy"/>
-                            <constraint firstItem="wC1-rn-psk" firstAttribute="trailing" secondItem="igz-o3-5OF" secondAttribute="trailing" id="fcx-du-9Df"/>
-                            <constraint firstItem="wC1-rn-psk" firstAttribute="top" secondItem="Vbr-Vo-1Ji" secondAttribute="bottom" id="hl6-Tw-BVG"/>
+                            <constraint firstItem="7vd-ad-oGn" firstAttribute="leading" secondItem="igz-o3-5OF" secondAttribute="leading" constant="12" id="RSq-6G-xzx"/>
+                            <constraint firstItem="7vd-ad-oGn" firstAttribute="top" secondItem="Vbr-Vo-1Ji" secondAttribute="bottom" constant="12" id="Rph-nU-8G7"/>
+                            <constraint firstItem="igz-o3-5OF" firstAttribute="bottom" secondItem="7vd-ad-oGn" secondAttribute="bottom" constant="12" id="jl4-Me-YaI"/>
                             <constraint firstItem="Vbr-Vo-1Ji" firstAttribute="trailing" secondItem="igz-o3-5OF" secondAttribute="trailing" id="lZo-QU-BwI"/>
-                            <constraint firstItem="wC1-rn-psk" firstAttribute="bottom" secondItem="igz-o3-5OF" secondAttribute="bottom" id="nOg-l9-V3n"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="8O0-qk-4cC"/>
@@ -267,6 +279,8 @@
     </scenes>
     <resources>
         <image name="camera.aperture" catalog="system" width="128" height="123"/>
+        <image name="square.and.pencil" catalog="system" width="128" height="121"/>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <namedColor name="MainColor">
             <color red="0.25882352941176473" green="0.6705882352941176" blue="0.88235294117647056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

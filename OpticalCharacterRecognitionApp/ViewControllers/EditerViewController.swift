@@ -23,15 +23,16 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         configureDocumentImageView()
     }
     
     // MARK: IBActions
-    @IBAction private func touchUpCancelButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpCancelButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction private func touchUpDoneButton(_ sender: UIBarButtonItem) {
+    @IBAction private func touchUpDoneButton(_ sender: UIButton) {
         guard let editingDocument = editingDocument,
               let detectedRectangle = editingDocument.detectedRectangle
         else { return }
