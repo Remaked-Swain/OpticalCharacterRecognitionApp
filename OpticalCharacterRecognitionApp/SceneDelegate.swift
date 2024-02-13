@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  OpticalCharacterRecognitionApp
-//
-//  Created by Swain Yun on 1/29/24.
-//
-
 import UIKit
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
