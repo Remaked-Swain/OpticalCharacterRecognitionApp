@@ -11,13 +11,6 @@ struct Document {
         self.image = image
         self.detectedRectangle = detectedRectangle
     }
-    
-    func changeDocument(newImage: CIImage? = nil, newDetectedRectangle: RectangleModel? = nil) -> Self {
-        let newDocument = Document(id: self.id,
-                                   image: newImage ?? self.image,
-                                   detectedRectangle: newDetectedRectangle ?? self.detectedRectangle)
-        return newDocument
-    }
 }
 
 // MARK: Hashable Confirmation
