@@ -93,7 +93,7 @@
                                 <action selector="touchUpCancelButton:" destination="Y6W-OH-hqX" id="kII-ab-RnC"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="자동" id="gTy-PZ-j8L" customClass="CaptureModeButton" customModule="OpticalCharacterRecognitionApp" customModuleProvider="target">
+                        <barButtonItem key="rightBarButtonItem" title="자동" id="gTy-PZ-j8L">
                             <connections>
                                 <action selector="touchUpCaptureModeButton:" destination="Y6W-OH-hqX" id="8hG-14-vl3"/>
                             </connections>

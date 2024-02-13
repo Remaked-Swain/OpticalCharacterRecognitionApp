@@ -53,7 +53,8 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     }
     
     @IBAction private func touchUpComposeButton(_ sender: UIButton) {
-        if let index = displayingDocumentIndex?.row, let documentForEdit = try? documentPersistentContainer.fetch(for: index) {
+        if let index = displayingDocumentIndex?.row,
+           let documentForEdit = try? documentPersistentContainer.fetch(for: index) {
             pushEditerViewController(with: documentForEdit)
         }
     }

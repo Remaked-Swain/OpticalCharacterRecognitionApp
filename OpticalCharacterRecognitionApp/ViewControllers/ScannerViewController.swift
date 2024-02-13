@@ -7,9 +7,16 @@ final class ScannerViewController: UIViewController {
     private let documentDetector: DocumentDetector = DefaultDocumentDetector()
     private let documentPersistentContainer: DocumentPersistentContainerProtocol = DocumentPersistentContainer()
     
+    // MARK: Properties
+    private var currentMode: CaptureMode = .automatic {
+        didSet {
+            setCaptureModeButtonTitle(currentMode)
+        }
+    }
+    
     // MARK: IBOutlets
     @IBOutlet private weak var cancelButton: UIBarButtonItem!
-    @IBOutlet private weak var captureModeButton: CaptureModeButton!
+    @IBOutlet private weak var captureModeButton: UIBarButtonItem!
     @IBOutlet private weak var videoView: VideoView!
     @IBOutlet private weak var documentPreview: UIImageView!
     @IBOutlet private weak var takeCaptureButton: UIButton!
@@ -20,12 +27,12 @@ final class ScannerViewController: UIViewController {
         view.backgroundColor = .white
         photoCaptureProcessor.delegate = self
         configurePhotoCaptureProcessor()
-        captureModeButton.configureCaptureButton()
         configureDocumentPreview()
+        configureCaptureButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        videoView.session = photoCaptureProcessor.session
+        videoView.videoPreviewLayer.session = photoCaptureProcessor.session
         photoCaptureProcessor.start()
         
         guard let lastDocument = try? documentPersistentContainer.fetch(for: documentPersistentContainer.count - 1) else {
@@ -55,7 +62,7 @@ final class ScannerViewController: UIViewController {
     }
     
     @IBAction private func touchUpCaptureModeButton(_ sender: UIBarButtonItem) {
-        captureModeButton.toggleCaptureMode()
+        toggleCaptureMode()
     }
     
     @IBAction private func touchUpTakeCaptureButton(_ sender: UIButton) {
@@ -87,6 +94,10 @@ extension ScannerViewController {
         documentPreview.addGestureRecognizer(tapGestureRecognizer)
         documentPreview.contentMode = .scaleAspectFill
     }
+    
+    private func configureCaptureButton() {
+        setCaptureModeButtonTitle(currentMode)
+    }
 }
 
 // MARK: CaptureProcessorDelegate Confirmation
@@ -95,10 +106,11 @@ extension ScannerViewController: CaptureProcessorDelegate {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         
         do {
-            let detectedRectangle = try documentDetector.detect(in: ciImage)
+            let detectedRectangle = try documentDetector.detect(in: ciImage, forType: .businessCard)
+            let transformedRectangle = convertRectangleCoordinatesSpace(detectedRectangle, originImageRect: ciImage.extent, viewSize: videoView.videoPreviewLayer.bounds.size)
             
             DispatchQueue.main.async { [weak self] in
-                self?.videoView.updateRectangleOverlay(detectedRectangle, originImageRect: ciImage.extent)
+                self?.videoView.updateRectangleOverlay(transformedRectangle)
             }
         } catch {
             DispatchQueue.main.async { [weak self] in
@@ -111,10 +123,11 @@ extension ScannerViewController: CaptureProcessorDelegate {
         guard let ciImage = ciImage else { return }
         
         do {
-            let detectedRectangle = try documentDetector.detect(in: ciImage)
+            let detectedRectangle = try documentDetector.detect(in: ciImage, forType: .businessCard)
             let filteredImage = documentDetector.filter(filterType: .perspectiveCorrection, image: ciImage, rectangle: detectedRectangle)
             let document = Document(image: filteredImage, detectedRectangle: detectedRectangle)
             storeDocument(document: document)
+            updateDocumentPreviewImage(document)
         } catch {
             switch error {
             case DetectError.rectangleDetectionFailed:
@@ -131,6 +144,25 @@ extension ScannerViewController: CaptureProcessorDelegate {
 
 // MARK: Private Methods
 extension ScannerViewController {
+    private func convertRectangleCoordinatesSpace(_ rectangle: RectangleModel, originImageRect rect: CGRect, viewSize: CGSize) -> RectangleModel {
+        let imageWidth = rect.width
+        let imageHeight = rect.height
+        
+        let scaleX = viewSize.width / imageWidth
+        let scaleY = viewSize.height / imageHeight
+        
+        let cornerPoints = rectangle.cornerPoints.map { $0.flipPositionY(scaleX, scaleY, displayTargetHeight: viewSize.height) }
+        return RectangleModel(cornerPoints: cornerPoints)
+    }
+    
+    private func toggleCaptureMode() {
+        currentMode = currentMode == .automatic ? .manual : .automatic
+    }
+    
+    private func setCaptureModeButtonTitle(_ mode: CaptureMode) {
+        captureModeButton.title = mode.title
+    }
+    
     @objc private func pushDocumentGalleryViewController() {
         if let documentGalleryViewController = storyboard?.instantiateViewController(identifier: DocumentGalleryViewController.identifier, creator: { coder in
             DocumentGalleryViewController(coder: coder, documentPersistentContainer: self.documentPersistentContainer, documentDetector: self.documentDetector)
@@ -149,10 +181,29 @@ extension ScannerViewController {
     
     private func storeDocument(document: Document) {
         documentPersistentContainer.store(document: document)
-        
+    }
+    
+    private func updateDocumentPreviewImage(_ document: Document) {
         let uiImage = UIImage(ciImage: document.image)
         DispatchQueue.main.async { [weak self] in
             self?.documentPreview.image = uiImage.rotate()
+        }
+    }
+}
+
+// MARK: Nested Types
+extension ScannerViewController {
+    enum CaptureMode {
+        case automatic
+        case manual
+        
+        var title: String {
+            switch self {
+            case .automatic:
+                "자동"
+            case .manual:
+                "수동"
+            }
         }
     }
 }

@@ -30,6 +30,7 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
+        magnetRectangle(on: documentImageView)
     }
     
     // MARK: IBActions
@@ -38,12 +39,7 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     }
     
     @IBAction private func touchUpDoneButton(_ sender: UIButton) {
-        guard let detectedRectangle = editingDocument.detectedRectangle else { return }
-        
-        let editingImage = editingDocument.image
-        let filteredImage = documentDetector.filter(filterType: .perspectiveCorrection, image: editingImage, rectangle: detectedRectangle)
-        let document = editingDocument.changeDocument(newImage: filteredImage, newDetectedRectangle: detectedRectangle)
-        documentPersistentContainer.store(document: document)
+        extractImage(on: documentImageView)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -51,23 +47,51 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
 // MARK: Configure Methods
 extension EditerViewController {
     private func configureDocumentImageView() {
-        documentImageView.delegate = self
         documentImageView.configure(with: editingDocument.image)
     }
 }
 
-// MARK: MagneticRectanglePresentationDelegate Confirmation
-extension EditerViewController: MagneticRectanglePresentationDelegate {
-    func didImageUpdate(_ delegate: DocumentImageView, image: UIImage) {
-        guard let cgImage = image.cgImage else { return }
+// MARK: Private Methods
+extension EditerViewController {
+    private func changeDocument(with document: Document, newImage: CIImage? = nil, newDetectedRectangle: RectangleModel? = nil) -> Document {
+        let newDocument = Document(id: document.id,
+                                   image: newImage ?? document.image,
+                                   detectedRectangle: newDetectedRectangle ?? document.detectedRectangle)
+        return newDocument
+    }
+    
+    private func magnetRectangle(on imageView: DocumentImageView) {
+        guard let cgImage = imageView.image?.cgImage else { return }
         let ciImage = CIImage(cgImage: cgImage)
         
         do {
-            let detectedRectangle = try documentDetector.detect(in: image, viewSize: delegate.bounds.size)
-            delegate.updateMagneticRectangleHighlight(detectedRectangle)
-            editingDocument = editingDocument.changeDocument(newImage: ciImage, newDetectedRectangle: detectedRectangle)
+            let detectedRectangle = try documentDetector.detect(in: ciImage, forType: .general)
+            let transformedRectangle = convertRectangleCoordinatesSpace(detectedRectangle, originImageRect: ciImage.extent, viewSize: imageView.bounds.size)
+            imageView.updateMagneticRectangleHighlight(transformedRectangle)
+            editingDocument = changeDocument(with: editingDocument, newImage: ciImage, newDetectedRectangle: detectedRectangle)
         } catch {
-            editingDocument = editingDocument.changeDocument(newImage: ciImage, newDetectedRectangle: nil)
+            editingDocument = changeDocument(with: editingDocument, newImage: ciImage, newDetectedRectangle: nil)
         }
+    }
+    
+    private func extractImage(on imageView: DocumentImageView) {
+        guard let cgImage = imageView.image?.cgImage else { return }
+        let ciImage = CIImage(cgImage: cgImage)
+        
+        let rectangle = RectangleModel(cornerPoints: imageView.highlightArea)
+        let filteredImage = documentDetector.filter(filterType: .perspectiveCorrection, image: ciImage, rectangle: rectangle)
+        let document = changeDocument(with: editingDocument, newImage: filteredImage, newDetectedRectangle: rectangle)
+        documentPersistentContainer.store(document: document)
+    }
+    
+    private func convertRectangleCoordinatesSpace(_ rectangle: RectangleModel, originImageRect rect: CGRect, viewSize: CGSize) -> RectangleModel {
+        let imageWidth = rect.width
+        let imageHeight = rect.height
+        
+        let scaleX = viewSize.width / imageWidth
+        let scaleY = viewSize.height / imageHeight
+        
+        let cornerPoints = rectangle.cornerPoints.map { $0.flipPositionY(scaleX, scaleY, displayTargetHeight: viewSize.height) }
+        return RectangleModel(cornerPoints: cornerPoints)
     }
 }

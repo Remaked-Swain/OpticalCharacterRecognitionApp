@@ -1,27 +1,19 @@
 import UIKit
 
-protocol MagneticRectanglePresentationDelegate: AnyObject {
-    func didImageUpdate(_ delegate: DocumentImageView, image: UIImage)
-}
-
 final class DocumentImageView: UIImageView {
     // MARK: Namespace
     private enum Constants {
         static let defaultCornerPointViewSize: CGSize = CGSize(width: 20, height: 20)
         static let defaultMagneticAreaLineWidth: CGFloat = 4
+        static let defaultMagneticAreaPadding: CGFloat = 20
     }
     
     // MARK: Properties
     private let cornerPointViews: [HighlightAreaPointView] = [
         HighlightAreaPointView(), HighlightAreaPointView(), HighlightAreaPointView(), HighlightAreaPointView()
     ]
-    private var highlightArea: CGRect {
-        let points = cornerPointViews.map { $0.center }
-        let minX = points.min(by: { $0.x < $1.x })?.x ?? .zero
-        let maxX = points.max(by: { $0.x < $1.x })?.x ?? .zero
-        let minY = points.min(by: { $0.y < $1.y })?.y ?? .zero
-        let maxY = points.max(by: { $0.y < $1.y })?.y ?? .zero
-        return CGRect(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+    var highlightArea: [CGPoint] {
+        cornerPointViews.map {$0.center}
     }
     
     private lazy var highlightLayer: CAShapeLayer = {
@@ -34,8 +26,6 @@ final class DocumentImageView: UIImageView {
         self.layer.addSublayer(layer)
         return layer
     }()
-    
-    weak var delegate: MagneticRectanglePresentationDelegate?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -63,10 +53,6 @@ extension DocumentImageView {
     private func setUpImage(by ciImage: CIImage) {
         let uiImage = UIImage(ciImage: ciImage)
         self.image = uiImage.rotate()
-        
-        if let image = self.image {
-            delegate?.didImageUpdate(self, image: image)
-        }
     }
     
     private func drawHighlightLayer() {
@@ -88,11 +74,12 @@ extension DocumentImageView {
 // MARK: Configure Methods
 extension DocumentImageView {
     private func configureCornerPointViews() {
+        let padding = Constants.defaultMagneticAreaPadding
         let defaultCornerPointViewCenters = [
-            CGPoint(x: bounds.minX, y: bounds.minY),
-            CGPoint(x: bounds.maxX, y: bounds.minY),
-            CGPoint(x: bounds.maxX, y: bounds.maxY),
-            CGPoint(x: bounds.minX, y: bounds.maxY),
+            CGPoint(x: bounds.minX + padding, y: bounds.minY + padding),
+            CGPoint(x: bounds.maxX - padding, y: bounds.minY + padding),
+            CGPoint(x: bounds.maxX - padding, y: bounds.maxY - padding),
+            CGPoint(x: bounds.minX + padding, y: bounds.maxY - padding),
         ]
         
         for (index, cornerPointView) in cornerPointViews.enumerated() {
@@ -106,8 +93,5 @@ extension DocumentImageView {
 extension DocumentImageView: HighlightAreaDrawingDelegate {
     func drawHighlightArea(_ delegate: HighlightAreaPointView) {
         drawHighlightLayer()
-        guard let cgImage = self.image?.cgImage?.cropping(to: highlightArea) else { return }
-        let croppedImage = UIImage(cgImage: cgImage)
-        self.delegate?.didImageUpdate(self, image: croppedImage)
     }
 }
