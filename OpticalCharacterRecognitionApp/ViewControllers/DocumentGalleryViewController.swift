@@ -29,6 +29,7 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = false
         let lastDocumentIndex = documentPersistentContainer.count - 1
         let indexPath = IndexPath(item: lastDocumentIndex, section: .zero)
         documentCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0480F4CE2B7921DE003C9BA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0480F4CD2B7921DE003C9BA5 /* Main.storyboard */; };
+		0480F4D02B7A341D003C9BA5 /* HighlightAreaPointView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0480F4CF2B7A341D003C9BA5 /* HighlightAreaPointView.swift */; };
 		048F56872B78CC54002BF780 /* EditerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048F56862B78CC54002BF780 /* EditerViewController.swift */; };
 		04A6E7C42B76620B007749BF /* UIViewControllerIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6E7C32B76620B007749BF /* UIViewControllerIdentifiable.swift */; };
 		04A6E7C72B766254007749BF /* ReusingCellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A6E7C62B766254007749BF /* ReusingCellIdentifiable.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		0480F4CD2B7921DE003C9BA5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		0480F4CF2B7A341D003C9BA5 /* HighlightAreaPointView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightAreaPointView.swift; sourceTree = "<group>"; };
 		048F56862B78CC54002BF780 /* EditerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditerViewController.swift; sourceTree = "<group>"; };
 		04A6E7C32B76620B007749BF /* UIViewControllerIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerIdentifiable.swift; sourceTree = "<group>"; };
 		04A6E7C62B766254007749BF /* ReusingCellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusingCellIdentifiable.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				04AF4D4A2B736A9A00F167B1 /* CaptureModeButton.swift */,
 				04C2BAC32B762A57001F9086 /* DocumentCell.swift */,
 				04A6E7CA2B77706D007749BF /* DocumentImageView.swift */,
+				0480F4CF2B7A341D003C9BA5 /* HighlightAreaPointView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				04C2BAC42B762A57001F9086 /* DocumentCell.swift in Sources */,
 				04A6E7C42B76620B007749BF /* UIViewControllerIdentifiable.swift in Sources */,
 				04C2BAA62B7391AE001F9086 /* Extension+CGPoint.swift in Sources */,
+				0480F4D02B7A341D003C9BA5 /* HighlightAreaPointView.swift in Sources */,
 				04AF4D3A2B7217E400F167B1 /* DefaultDocumentDetector.swift in Sources */,
 				04AC22DF2B6A372E009B5EA9 /* DetectError.swift in Sources */,
 				048F56872B78CC54002BF780 /* EditerViewController.swift in Sources */,

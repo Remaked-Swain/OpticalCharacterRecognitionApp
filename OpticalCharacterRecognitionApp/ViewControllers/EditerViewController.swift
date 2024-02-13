@@ -28,6 +28,10 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
         configureDocumentImageView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     // MARK: IBActions
     @IBAction private func touchUpCancelButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
@@ -54,13 +58,16 @@ extension EditerViewController {
 
 // MARK: MagneticRectanglePresentationDelegate Confirmation
 extension EditerViewController: MagneticRectanglePresentationDelegate {
-    func didHighlightAreaUpdate(_ delegate: DocumentImageView, imageInArea ciImage: CIImage) {
+    func didImageUpdate(_ delegate: DocumentImageView, image: UIImage) {
+        guard let cgImage = image.cgImage else { return }
+        let ciImage = CIImage(cgImage: cgImage)
+        
         do {
-            let detectedRectangle = try documentDetector.detect(in: ciImage)
-            documentImageView.updateMagneticRectangleHighlight(detectedRectangle)
+            let detectedRectangle = try documentDetector.detect(in: image, viewSize: delegate.bounds.size)
+            delegate.updateMagneticRectangleHighlight(detectedRectangle)
             editingDocument = editingDocument.changeDocument(newImage: ciImage, newDetectedRectangle: detectedRectangle)
         } catch {
-            editingDocument = editingDocument.changeDocument(newDetectedRectangle: nil)
+            editingDocument = editingDocument.changeDocument(newImage: ciImage, newDetectedRectangle: nil)
         }
     }
 }
