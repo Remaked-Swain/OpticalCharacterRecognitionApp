@@ -22,6 +22,8 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
+    private let frameCountLimit: Int = 10
+    private var frameCount = 0
     
     // MARK: Dependencies
     weak var delegate: CaptureProcessorDelegate?
@@ -138,7 +140,13 @@ extension DefaultPhotoCaptureProcessor {
 extension DefaultPhotoCaptureProcessor: AVCaptureVideoDataOutputSampleBufferDelegate, AVCapturePhotoCaptureDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        guard frameCount >= frameCountLimit else {
+            frameCount += 1
+            return
+        }
         delegate?.captureOutput(self, didOutput: pixelBuffer)
+        frameCount = .zero
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
