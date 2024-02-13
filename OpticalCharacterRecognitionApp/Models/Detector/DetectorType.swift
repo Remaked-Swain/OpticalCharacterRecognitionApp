@@ -1,8 +1,20 @@
-//
-//  DetectorType.swift
-//  OpticalCharacterRecognitionApp
-//
-//  Created by Swain Yun on 2/13/24.
-//
+import CoreImage
 
-import Foundation
+enum DetectorType {
+    case general
+    case businessCard
+    
+    var options: [String: Any] {
+        switch self {
+        case .general:
+            [
+                CIDetectorAccuracy: CIDetectorAccuracyHigh
+            ]
+        case .businessCard:
+            [
+                CIDetectorAccuracy: CIDetectorAccuracyHigh,
+                CIDetectorAspectRatio: 1.75
+            ]
+        }
+    }
+}
