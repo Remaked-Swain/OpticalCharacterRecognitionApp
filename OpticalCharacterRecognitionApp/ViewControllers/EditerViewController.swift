@@ -30,7 +30,10 @@ final class EditerViewController: UIViewController, UIViewControllerIdentifiable
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
-        magnetRectangle(on: documentImageView)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        magnet(on: documentImageView)
     }
     
     // MARK: IBActions
@@ -60,7 +63,7 @@ extension EditerViewController {
         return newDocument
     }
     
-    private func magnetRectangle(on imageView: DocumentImageView) {
+    private func magnet(on imageView: DocumentImageView) {
         guard let cgImage = imageView.image?.cgImage else { return }
         let ciImage = CIImage(cgImage: cgImage)
         
