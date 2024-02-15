@@ -22,7 +22,7 @@ final class DefaultPhotoCaptureProcessor: NSObject, PhotoCaptureProcessor {
     private let photoOutput = AVCapturePhotoOutput()
     private let videoOutput = AVCaptureVideoDataOutput()
     private let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
-    private let frameCountLimit: Int = 10
+    private let frameCountLimit: Int = 4
     private var frameCount = 0
     
     // MARK: Dependencies

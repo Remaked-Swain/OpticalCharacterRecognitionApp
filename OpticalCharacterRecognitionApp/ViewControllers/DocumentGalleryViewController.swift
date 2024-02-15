@@ -43,9 +43,17 @@ final class DocumentGalleryViewController: UIViewController, UIViewControllerIde
     // MARK: IBActions
     @IBAction private func touchUpTrashButton(_ sender: UIButton) {
         guard let indexPath = displayingDocumentIndex else { return }
-        documentPersistentContainer.delete(at: indexPath.row)
-        documentCollectionView.deleteItems(at: [indexPath])
-        documentCollectionView.reloadData()
+        do {
+            try documentPersistentContainer.delete(at: indexPath.row)
+            documentCollectionView.deleteItems(at: [indexPath])
+            documentCollectionView.reloadData()
+        } catch {
+            guard let error = error as? DocumentPersistentContainerError else {
+                print(error)
+                return
+            }
+            print(error.debugDescription)
+        }
     }
     
     @IBAction private func touchUpReversedClockButton(_ sender: UIButton) {

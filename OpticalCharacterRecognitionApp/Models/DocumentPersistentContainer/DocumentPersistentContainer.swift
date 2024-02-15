@@ -16,7 +16,7 @@ protocol DocumentFetchable {
 }
 
 protocol DocumentDeletable {
-    func delete(at index: Int)
+    func delete(at index: Int) throws
 }
 
 typealias DocumentPersistentContainerProtocol = HoldingsCountable & DocumentStorable & DocumentFetchable & DocumentDeletable
@@ -60,7 +60,14 @@ final class DocumentPersistentContainer: DocumentPersistentContainerProtocol {
         return container
     }
     
-    func delete(at index: Int) {
+    func delete(at index: Int) throws {
+        guard container.isEmpty == false else {
+            throw DocumentPersistentContainerError.documentNotFound
+        }
+        
+        guard index >= .zero && index < count else {
+            throw DocumentPersistentContainerError.indexOutOfRange
+        }
         container.remove(at: index)
     }
 }
