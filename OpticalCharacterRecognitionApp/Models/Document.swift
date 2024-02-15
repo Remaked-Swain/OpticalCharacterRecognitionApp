@@ -12,14 +12,3 @@ struct Document {
         self.detectedRectangle = detectedRectangle
     }
 }
-
-// MARK: Hashable Confirmation
-extension Document: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
-    static func ==(lhs: Document, rhs: Document) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
